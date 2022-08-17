@@ -21,26 +21,26 @@ public class QLSVController implements ActionListener {
         String cm = e.getActionCommand();
 
         // Xử lý khi nhấn vào từng nút
-        if(cm.equals("Them")) {
+        if(cm.equals("Add")) {
             this.view.xoaForm();
             this.view.model.setLuaChon("Them");
-        } else if(cm.equals("Luu")) {
+        } else if(cm.equals("Save student")) {
             // Bắt lỗi khi người dùng nhập sai kiểu dữ liệu
             try {
                 this.view.thucHienThemThiSinh();
             } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                this.view.xoaForm();
+                JOptionPane.showMessageDialog(view, "You have entered the wrong data, please re-enter!");
             }
-        } else if(cm.equals("Cap nhat")) {
+        } else if(cm.equals("Update")) {
             this.view.hienThiThongTinThiSinhDaChon();
-        } else if(cm.equals("Xoa")) {
+        } else if(cm.equals("Delete")) {
             this.view.thucHienXoa();
-        } else if(cm.equals("Huy bo")) {
+        } else if(cm.equals("Cancel")) {
             this.view.xoaForm();
-        } else if(cm.equals("Tim")) {
+        } else if(cm.equals("Search")) {
             this.view.thucHienTim();
-        } else if(cm.equals("Huy")) {
+        } else if(cm.equals("Reload")) {
             this.view.thucHienTaiLaiDuLieu();
         } else if(cm.equals("About me")) {
             this.view.hienThiAbout();

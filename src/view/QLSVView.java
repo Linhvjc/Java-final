@@ -2,11 +2,15 @@ package view;
 
 import java.awt.EventQueue;
 
+import javax.management.RuntimeErrorException;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import controller.QLSVController;
@@ -38,11 +42,15 @@ public class QLSVView extends JFrame {
      */
     public QLSVView() {
         this.model = new QLSVModel();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 803, 543);
 
+        // Set các đặc tính cho toàn bộ chương trình
+        this.setTitle("Student manager system");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(900,600);
+        this.setLocationRelativeTo(null);
         ActionListener action = new QLSVController(this);
 
+        // Menu bar
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
@@ -82,6 +90,7 @@ public class QLSVView extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 10));
 
+        // Header panel
         JPanel panel_header = new JPanel();
         contentPane.add(panel_header, BorderLayout.NORTH);
         panel_header.setLayout(new GridLayout(1, 3, 5, 5));
@@ -90,7 +99,7 @@ public class QLSVView extends JFrame {
         panel_header.add(panel_searchLocation);
         panel_searchLocation.setLayout(new GridLayout(1, 2, 0, 0));
 
-        JLabel jLabel_location = new JLabel("Que quan", SwingConstants.CENTER);
+        JLabel jLabel_location = new JLabel("Home Town", SwingConstants.CENTER);
         jLabel_location.setFont(new Font("Tahoma", Font.PLAIN, 13));
         panel_searchLocation.add(jLabel_location);
 
@@ -107,7 +116,7 @@ public class QLSVView extends JFrame {
         panel_header.add(panel_searchID);
         panel_searchID.setLayout(new GridLayout(1, 2, 0, 0));
 
-        JLabel label_studentID = new JLabel("Ma Thi Sinh", SwingConstants.CENTER);
+        JLabel label_studentID = new JLabel("Student ID", SwingConstants.CENTER);
         panel_searchID.add(label_studentID);
 
         textField_studentID_search = new JTextField();
@@ -118,14 +127,15 @@ public class QLSVView extends JFrame {
         panel_header.add(panel_searchBtn);
         panel_searchBtn.setLayout(new GridLayout(1, 2, 20, 0));
 
-        JButton btnSearch = new JButton("Tim");
+        JButton btnSearch = new JButton("Search");
         btnSearch.addActionListener(action);
         panel_searchBtn.add(btnSearch);
 
-        JButton btnReload = new JButton("Huy");
+        JButton btnReload = new JButton("Reload");
         btnReload.addActionListener(action);
         panel_searchBtn.add(btnReload);
 
+        // Content panel
         JPanel panel_content = new JPanel();
         contentPane.add(panel_content, BorderLayout.CENTER);
         panel_content.setLayout(new GridLayout(2, 1, 5, 5));
@@ -134,8 +144,8 @@ public class QLSVView extends JFrame {
         panel_content.add(panel_contentTable);
         panel_contentTable.setLayout(new BorderLayout(0, 0));
 
-        JLabel label_body_header = new JLabel("Danh sach thi sinh");
-        label_body_header.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        JLabel label_body_header = new JLabel("List of students");
+        label_body_header.setFont(new Font("Tahoma", Font.BOLD, 18));
         panel_contentTable.add(label_body_header, BorderLayout.NORTH);
 
         JScrollPane scrollPane = new JScrollPane();
@@ -146,7 +156,7 @@ public class QLSVView extends JFrame {
                 new Object[][] {
                 },
                 new String[] {
-                        "Ma Thi Sinh", "Ho va ten", "Que quan", "Ngay sinh", "Gioi tinh", "Diem 1", "Diem 2", "Diem 3"
+                        "Student ID", "Full name", "Home town", "Date of birth", "Sex", "Grade 1", "Grade 2", "Grade 3"
                 }
         ));
         scrollPane.setViewportView(table);
@@ -155,8 +165,8 @@ public class QLSVView extends JFrame {
         panel_content.add(panel_contentForm);
         panel_contentForm.setLayout(new BorderLayout(0, 0));
 
-        JLabel label_student_info = new JLabel("Thong tin thi sinh");
-        label_student_info.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        JLabel label_student_info = new JLabel("Student information");
+        label_student_info.setFont(new Font("Tahoma", Font.BOLD, 18));
         panel_contentForm.add(label_student_info, BorderLayout.NORTH);
 
         JPanel panel_contentFormBody = new JPanel();
@@ -167,21 +177,24 @@ public class QLSVView extends JFrame {
         panel_contentFormBody.add(panel_contentFormBodyLeft);
         panel_contentFormBodyLeft.setLayout(new GridLayout(4, 2, 10, 10));
 
-        JLabel label_studentID_form = new JLabel("Ma Thi Sinh", SwingConstants.CENTER);
+        JLabel label_studentID_form = new JLabel("Student ID:", SwingConstants.CENTER);
+        label_studentID_form.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyLeft.add(label_studentID_form);
 
         textField_ID = new JTextField();
         panel_contentFormBodyLeft.add(textField_ID);
         textField_ID.setColumns(10);
 
-        JLabel label_studentName = new JLabel("Ho va ten", SwingConstants.CENTER);
+        JLabel label_studentName = new JLabel("Full name:", SwingConstants.CENTER);
+        label_studentName.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyLeft.add(label_studentName);
 
         textField_studentName = new JTextField();
         panel_contentFormBodyLeft.add(textField_studentName);
         textField_studentName.setColumns(10);
 
-        JLabel lable_location_form = new JLabel("Que quan", SwingConstants.CENTER);
+        JLabel lable_location_form = new JLabel("Home town:", SwingConstants.CENTER);
+        lable_location_form.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyLeft.add(lable_location_form);
 
         comboBox_location = new JComboBox();
@@ -192,7 +205,8 @@ public class QLSVView extends JFrame {
         }
         panel_contentFormBodyLeft.add(comboBox_location);
 
-        JLabel label_dob = new JLabel("Ngay sinh", SwingConstants.CENTER);
+        JLabel label_dob = new JLabel("Date of birth (dd/mm/yyyy):", SwingConstants.CENTER);
+        label_dob.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyLeft.add(label_dob);
 
         textField_dob = new JTextField();
@@ -203,17 +217,20 @@ public class QLSVView extends JFrame {
         panel_contentFormBody.add(panel_contentFormBodyRight);
         panel_contentFormBodyRight.setLayout(new GridLayout(4, 2, 10, 10));
 
-        JLabel label_sex = new JLabel("Gioi Tinh", SwingConstants.CENTER);
+        JLabel label_sex = new JLabel("Sex:", SwingConstants.CENTER);
+        label_sex.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyRight.add(label_sex);
 
         JPanel panel_Sex = new JPanel();
         panel_contentFormBodyRight.add(panel_Sex);
         panel_Sex.setLayout(new GridLayout(1, 2, 0, 0));
 
-        radioButton_male = new JRadioButton("Nam");
+        radioButton_male = new JRadioButton("Male");
+        radioButton_male.setFont(new Font("Tahoma", Font.PLAIN, 13));
         panel_Sex.add(radioButton_male);
 
-        radioButton_female = new JRadioButton("Nu");
+        radioButton_female = new JRadioButton("Female");
+        radioButton_female.setFont(new Font("Tahoma", Font.PLAIN, 13));
         panel_Sex.add(radioButton_female);
 
         // Tạo ButtonGroup cho 2 button giới tính
@@ -221,48 +238,57 @@ public class QLSVView extends JFrame {
         btng_sex.add(radioButton_male);
         btng_sex.add(radioButton_female);
 
-        JLabel lable_grade1 = new JLabel("Mon 1", SwingConstants.CENTER);
-        panel_contentFormBodyRight.add(lable_grade1);
+        JLabel label_grade1 = new JLabel("Grade 1:", SwingConstants.CENTER);
+        label_grade1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        panel_contentFormBodyRight.add(label_grade1);
 
         textField_grade1 = new JTextField();
         panel_contentFormBodyRight.add(textField_grade1);
         textField_grade1.setColumns(10);
 
-        JLabel lable_grade2 = new JLabel("Mon 2", SwingConstants.CENTER);
-        panel_contentFormBodyRight.add(lable_grade2);
+        JLabel label_grade2 = new JLabel("Grade 2:", SwingConstants.CENTER);
+        label_grade2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        panel_contentFormBodyRight.add(label_grade2);
 
         textField_grade2 = new JTextField();
         panel_contentFormBodyRight.add(textField_grade2);
         textField_grade2.setColumns(10);
 
-        JLabel lable_grade3 = new JLabel("Mon 3", SwingConstants.CENTER);
-        panel_contentFormBodyRight.add(lable_grade3);
+        JLabel label_grade3 = new JLabel("Grade 3:", SwingConstants.CENTER);
+        label_grade3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        panel_contentFormBodyRight.add(label_grade3);
 
         textField_grade3 = new JTextField();
         panel_contentFormBodyRight.add(textField_grade3);
         textField_grade3.setColumns(10);
 
+        // Footer panel
         JPanel panel_footer = new JPanel();
         contentPane.add(panel_footer, BorderLayout.SOUTH);
         panel_footer.setLayout(new GridLayout(1, 5, 20, 10));
 
-        JButton btnAdd = new JButton("Them");
+        JButton btnAdd = new JButton("Add");
+        btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
         btnAdd.addActionListener(action);
         panel_footer.add(btnAdd);
 
-        JButton btnDelete = new JButton("Xoa");
+        JButton btnDelete = new JButton("Delete");
+        btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
         btnDelete.addActionListener(action);
         panel_footer.add(btnDelete);
 
-        JButton btnUpdate = new JButton("Cap nhat");
+        JButton btnUpdate = new JButton("Update");
+        btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 14));
         btnUpdate.addActionListener(action);
         panel_footer.add(btnUpdate);
 
-        JButton btnSave = new JButton("Luu");
+        JButton btnSave = new JButton("Save student");
+        btnSave.setFont(new Font("Tahoma", Font.PLAIN, 14));
         btnSave.addActionListener(action);
         panel_footer.add(btnSave);
 
-        JButton btnCancel = new JButton("Huy bo");
+        JButton btnCancel = new JButton("Cancel");
+        btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
         btnCancel.addActionListener(action);
         panel_footer.add(btnCancel);
 
@@ -291,39 +317,38 @@ public class QLSVView extends JFrame {
 
     public void themThiSinhVaoTable (ThiSinh ts) {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
-        model_table.addRow(
-                new Object[]{ts.getMaThiSinh()+""
-                        , ts.getTenThiSinh()
-                        , ts.getQueQuan().getTenTinh()
-                        , ts.getNgaySinh().getDate()+"/"+(ts.getNgaySinh().getMonth()+1)+"/"+(ts.getNgaySinh().getYear()+1900)
-                        , (ts.isGioiTinh() ? "Nam" : "Nu")
-                        , ts.getDiemMon1() +""
-                        , ts.getDiemMon2() +""
-                        , ts.getDiemMon3() +""
-                });
+        model_table.addRow(new Object[] {
+                ts.getMaThiSinh() + ""
+                , ts.getTenThiSinh()
+                , ts.getQueQuan().getTenTinh()
+                , ts.getNgaySinh().getDate() + "/" + (ts.getNgaySinh().getMonth() + 1) +
+                "/" + (ts.getNgaySinh().getYear() + 1900)
+                , (ts.isGioiTinh() ? "Male" : "Female")
+                , ts.getDiemMon1() + ""
+                , ts.getDiemMon2() + "",
+                ts.getDiemMon3() + "", });
     }
 
     public void themHoacCapNhatThiSinh(ThiSinh ts) {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
-        if(!this.model.kiemtraTonTai(ts)) {
+        if (!this.model.kiemtraTonTai(ts)) {
             this.model.insert(ts);
-            // Thêm hàng vào bảng
             this.themThiSinhVaoTable(ts);
         } else {
             this.model.update(ts);
             int soLuongDong = model_table.getRowCount();
-            for(int i=0; i<soLuongDong; i++) {
-                String id = model_table.getValueAt(i,0)+"";
-                if(id.equals(ts.getMaThiSinh()+"")) {
-                    model_table.setValueAt(ts.getMaThiSinh()+"",i,0);
-                    model_table.setValueAt(ts.getTenThiSinh()+"",i,1);
-                    model_table.setValueAt(ts.getQueQuan().getTenTinh()+"",i,2);
-                    model_table.setValueAt(ts.getNgaySinh().getDate()+"/"+(ts.getNgaySinh().getMonth()+1)+"/"+(ts.getNgaySinh().getYear()+1900)+"",i,3);
-                    model_table.setValueAt((ts.isGioiTinh() ? "Nam" : "Nu")+"",i,4);
-                    model_table.setValueAt(ts.getDiemMon1()+"",i,5);
-                    model_table.setValueAt(ts.getDiemMon2()+"",i,6);
-                    model_table.setValueAt(ts.getDiemMon3()+"",i,7);
-
+            for (int i = 0; i < soLuongDong; i++) {
+                String id = model_table.getValueAt(i, 0) + "";
+                if (id.equals(ts.getMaThiSinh() + "")) {
+                    model_table.setValueAt(ts.getMaThiSinh() + "", i, 0);
+                    model_table.setValueAt(ts.getTenThiSinh() + "", i, 1);
+                    model_table.setValueAt(ts.getQueQuan().getTenTinh() + "", i, 2);
+                    model_table.setValueAt(ts.getNgaySinh().getDate() + "/" + (ts.getNgaySinh().getMonth() + 1) + "/"
+                            + (ts.getNgaySinh().getYear() + 1900) + "", i, 3);
+                    model_table.setValueAt((ts.isGioiTinh() ? "Male" : "Female"), i, 4);
+                    model_table.setValueAt(ts.getDiemMon1() + "", i, 5);
+                    model_table.setValueAt(ts.getDiemMon2() + "", i, 6);
+                    model_table.setValueAt(ts.getDiemMon3() + "", i, 7);
                 }
             }
         }
@@ -341,7 +366,7 @@ public class QLSVView extends JFrame {
         String s_ngaySinh = model_table.getValueAt(i_row,3) +"";
         Date ngaySinh = new Date(s_ngaySinh);
         String textGioiTinh = model_table.getValueAt(i_row,4) +"";
-        boolean gioiTinh = textGioiTinh.equals("Nam");
+        boolean gioiTinh = textGioiTinh.equals("Male");
         float diemMon1 = Float.parseFloat(model_table.getValueAt(i_row,5) +"");
         float diemMon2 = Float.parseFloat(model_table.getValueAt(i_row,6) +"");
         float diemMon3 = Float.parseFloat(model_table.getValueAt(i_row,7) +"");
@@ -357,7 +382,8 @@ public class QLSVView extends JFrame {
         this.textField_ID.setText(ts.getMaThiSinh()+"");
         this.textField_studentName.setText(ts.getTenThiSinh()+"");
         this.comboBox_location.setSelectedItem(ts.getQueQuan().getTenTinh());
-        String s_ngaySinh = ts.getNgaySinh().getDate()+"/"+(ts.getNgaySinh().getMonth()+1)+"/"+(ts.getNgaySinh().getYear()+1900);
+        String s_ngaySinh = ts.getNgaySinh().getDate() +"/"+(ts.getNgaySinh().getMonth()+1)
+                +"/"+ (ts.getNgaySinh().getYear()+1900);
         this.textField_dob.setText(s_ngaySinh +"");
         if(ts.isGioiTinh()) {
             radioButton_male.setSelected(true);
@@ -372,7 +398,7 @@ public class QLSVView extends JFrame {
     public void thucHienXoa() {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         int i_row = table.getSelectedRow();
-        int luaChon = JOptionPane.showConfirmDialog(this, "Bạn có chắn chắn xóa dòng đã chọn?");
+        int luaChon = JOptionPane.showConfirmDialog(this, "Are you sure to delete the selected line?");
         if (luaChon == JOptionPane.YES_OPTION) {
             ThiSinh ts = getThiSinhDangChon();
             this.model.delete(ts);
@@ -380,7 +406,7 @@ public class QLSVView extends JFrame {
         }
     }
 
-    public void thucHienThemThiSinh() {
+    public void thucHienThemThiSinh() throws Exception {
 
         // Lấy dữ liệu
         int maThiSinh = Integer.parseInt(this.textField_ID.getText());
@@ -395,9 +421,18 @@ public class QLSVView extends JFrame {
         } else if(this.radioButton_female.isSelected()) {
             gioiTinh = false;
         }
-        float diemMon1 = Float.parseFloat(this.textField_grade1.getText());
-        float diemMon2 = Float.parseFloat(this.textField_grade2.getText());
-        float diemMon3 = Float.parseFloat(this.textField_grade3.getText());
+
+        float diemMon1 = -1, diemMon2 =-1, diemMon3 = -1;
+        try {
+            diemMon1 = Float.parseFloat(this.textField_grade1.getText());
+            diemMon2 = Float.parseFloat(this.textField_grade2.getText());
+            diemMon3 = Float.parseFloat(this.textField_grade3.getText());
+            if (diemMon1 > 10 || diemMon1 <0) throw new Exception();
+            if (diemMon2 > 10 || diemMon2 <0) throw new Exception();
+            if (diemMon3 > 10 || diemMon3 <0) throw new Exception();
+        } catch (Exception e) {
+            throw e;
+        }
 
         // Thí sinh mới
         ThiSinh ts = new ThiSinh(maThiSinh,tenThiSinh,tinh,ngaySinh,gioiTinh,diemMon1,diemMon2,diemMon3);
@@ -482,7 +517,7 @@ public class QLSVView extends JFrame {
     public void thoatKhoiChuongTrinh() {
         int luaChon = JOptionPane.showConfirmDialog(
                 this,
-                "Ban co muon thoat khoi chuong trinh",
+                "Do you want to exit the program?",
                 "Exit",
                 JOptionPane.YES_NO_OPTION);
         if(luaChon == JOptionPane.YES_OPTION) {
