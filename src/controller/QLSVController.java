@@ -7,6 +7,7 @@ import view.QLSVView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Date;
 
 public class QLSVController implements ActionListener {
@@ -30,7 +31,8 @@ public class QLSVController implements ActionListener {
                 this.view.thucHienThemThiSinh();
             } catch (Exception e1) {
                 this.view.xoaForm();
-                JOptionPane.showMessageDialog(view, "You have entered the wrong data, please re-enter!");
+                JOptionPane.showMessageDialog(view, "Please enter full information !\n" +
+                        "Or your information is not correct!");
             }
         } else if(cm.equals("Update")) {
             this.view.hienThiThongTinThiSinhDaChon();
@@ -47,9 +49,17 @@ public class QLSVController implements ActionListener {
         } else if(cm.equals("Exit")) {
             this.view.thoatKhoiChuongTrinh();
         } else if(cm.equals("Save")) {
-            this.view.thucHienSaveFile();
+            try {
+                this.view.thucHienSaveFile();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(view, "Cannot save this file");
+            }
         } else if(cm.equals("Open")) {
-            this.view.thucHienOpenFile();
+            try {
+                this.view.thucHienOpenFile();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Cannot open the file");
+            }
         }
     }
 }

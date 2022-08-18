@@ -151,6 +151,8 @@ public class QLSVView extends JFrame {
         JScrollPane scrollPane = new JScrollPane();
         panel_contentTable.add(scrollPane, BorderLayout.CENTER);
 
+
+
         table = new JTable();
         table.setModel(new DefaultTableModel(
                 new Object[][] {
@@ -159,6 +161,8 @@ public class QLSVView extends JFrame {
                         "Student ID", "Full name", "Home town", "Date of birth", "Sex", "Grade 1", "Grade 2", "Grade 3"
                 }
         ));
+
+        table.setDefaultEditor(Object.class, null);
         scrollPane.setViewportView(table);
 
         JPanel panel_contentForm = new JPanel();
@@ -297,12 +301,18 @@ public class QLSVView extends JFrame {
     }
 
 
+
+
+
+/**
+ * Các phương thức xử lý
+ */
+
+
+
     /**
-     * Các phương thức xử lý
+     * Phương thúc xoa toan bo thong tin tren form
      */
-
-
-    // Phương thúc xoa toan bo thong tin tren form
     public void xoaForm() {
         textField_ID.setText("");
         textField_studentName.setText("");
@@ -315,6 +325,9 @@ public class QLSVView extends JFrame {
         btng_sex.clearSelection();
     }
 
+    /**
+     * Phương thúc thêm sinh viên vào bảng
+     */
     public void themThiSinhVaoTable (ThiSinh ts) {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         model_table.addRow(new Object[] {
@@ -329,6 +342,9 @@ public class QLSVView extends JFrame {
                 ts.getDiemMon3() + "", });
     }
 
+    /**
+     * Phương thúc thêm hoặc cập nhật sinh viên vào bảng
+     */
     public void themHoacCapNhatThiSinh(ThiSinh ts) {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         if (!this.model.kiemtraTonTai(ts)) {
@@ -354,6 +370,9 @@ public class QLSVView extends JFrame {
         }
     }
 
+    /**
+     * Phương thúc lấy thông tin của sinh viên đã chọn
+     */
     public ThiSinh getThiSinhDangChon() {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         int i_row = table.getSelectedRow();  // index của dòng
@@ -375,6 +394,9 @@ public class QLSVView extends JFrame {
         return ts;
     }
 
+    /**
+     * Phương thúc hiển thị thông tin của sinh viên đã chọn
+     */
     public void hienThiThongTinThiSinhDaChon() {
         ThiSinh ts = getThiSinhDangChon();
 
@@ -395,6 +417,9 @@ public class QLSVView extends JFrame {
         this.textField_grade3.setText(ts.getDiemMon3()+"");
     }
 
+    /**
+     * Phương thúc xóa sinh viên đã chọn
+     */
     public void thucHienXoa() {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         int i_row = table.getSelectedRow();
@@ -406,6 +431,9 @@ public class QLSVView extends JFrame {
         }
     }
 
+    /**
+     * Phương thúc xóa sinh viên đã chọn
+     */
     public void thucHienThemThiSinh() throws Exception {
 
         // Lấy dữ liệu
@@ -420,19 +448,17 @@ public class QLSVView extends JFrame {
             gioiTinh = true;
         } else if(this.radioButton_female.isSelected()) {
             gioiTinh = false;
+        } else {
+            throw new Exception();
         }
 
-        float diemMon1 = -1, diemMon2 =-1, diemMon3 = -1;
-        try {
-            diemMon1 = Float.parseFloat(this.textField_grade1.getText());
-            diemMon2 = Float.parseFloat(this.textField_grade2.getText());
-            diemMon3 = Float.parseFloat(this.textField_grade3.getText());
-            if (diemMon1 > 10 || diemMon1 <0) throw new Exception();
-            if (diemMon2 > 10 || diemMon2 <0) throw new Exception();
-            if (diemMon3 > 10 || diemMon3 <0) throw new Exception();
-        } catch (Exception e) {
-            throw e;
-        }
+        // validate khi nhập điểm >10 hoặc <0
+        float diemMon1 = Float.parseFloat(this.textField_grade1.getText());
+        float diemMon2 = Float.parseFloat(this.textField_grade2.getText());
+        float diemMon3 = Float.parseFloat(this.textField_grade3.getText());
+        if (diemMon1 > 10 || diemMon1 <0) throw new Exception();
+        if (diemMon2 > 10 || diemMon2 <0) throw new Exception();
+        if (diemMon3 > 10 || diemMon3 <0) throw new Exception();
 
         // Thí sinh mới
         ThiSinh ts = new ThiSinh(maThiSinh,tenThiSinh,tinh,ngaySinh,gioiTinh,diemMon1,diemMon2,diemMon3);
@@ -440,6 +466,9 @@ public class QLSVView extends JFrame {
         this.xoaForm();
     }
 
+    /**
+     * Phương thức tìm kiếm sinh viên
+     */
     public void thucHienTim() {
         // Gọi hàm hủy tìm kiếm trước
         this.thucHienTaiLaiDuLieu();
@@ -478,7 +507,7 @@ public class QLSVView extends JFrame {
                     try {
                         model_table.removeRow(i);
                     } catch (Exception e) {
-
+                        throw e;
                     }
                     break;
                 }
@@ -489,7 +518,9 @@ public class QLSVView extends JFrame {
     }
 
 
-
+    /**
+     * Phương thức tải lại dữ liệu trong bảng
+     */
     public void thucHienTaiLaiDuLieu() {
         // Xoa tat ca cac dong
         while (true) {
@@ -502,7 +533,7 @@ public class QLSVView extends JFrame {
                 try {
                     model_table.removeRow(0);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    throw e;
                 }
         }
         for (ThiSinh ts : this.model.getDsThiSinh()) {
@@ -510,10 +541,16 @@ public class QLSVView extends JFrame {
         }
     }
 
+    /**
+     * hiển thị cửa sổ aboutme
+     */
     public void hienThiAbout() {
         JOptionPane.showMessageDialog(this, "Copyright by Phan Nhat Linh");
     }
 
+    /**
+     * Thoát khỏi chương trình
+     */
     public void thoatKhoiChuongTrinh() {
         int luaChon = JOptionPane.showConfirmDialog(
                 this,
@@ -525,7 +562,10 @@ public class QLSVView extends JFrame {
         }
     }
 
-    public void saveFile(String path) {
+    /**
+     * lưu file
+     */
+    public void saveFile(String path) throws IOException {
         try {
             this.model.setTenFile(path);
             FileOutputStream fos = new FileOutputStream(path);
@@ -537,11 +577,14 @@ public class QLSVView extends JFrame {
             }
             oos.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         }
     }
 
-    public void thucHienSaveFile() {
+    /**
+     * thực hiện lưu file
+     */
+    public void thucHienSaveFile() throws IOException {
         // Kiểm tra xem đã mở file hay chưa
         if(this.model.getTenFile().length()>0) {
             // Lưu lại với chính tên file đó
@@ -557,7 +600,10 @@ public class QLSVView extends JFrame {
         }
     }
 
-    public void openFile(File file) {
+    /**
+     * Mở file
+     */
+    public void openFile(File file) throws Exception {
         ArrayList<ThiSinh> ds = new ArrayList<ThiSinh>();
         try {
             this.model.setTenFile(file.getAbsolutePath());
@@ -572,12 +618,15 @@ public class QLSVView extends JFrame {
             }
             ois.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw e;
         }
         this.model.setDsThiSinh(ds);
     }
 
-    public void thucHienOpenFile() {
+    /**
+     * Thực hiện mở file
+     */
+    public void thucHienOpenFile() throws Exception {
         // Mở cửa sổ để các tập tin file
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showOpenDialog(this);

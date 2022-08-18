@@ -1,12 +1,13 @@
-package test;
+package running;
 
 
 import view.QLSVView;
 
 import javax.swing.*;
+import java.io.IOException;
 
-public class test {
-    public static void main(String[] args) {
+public class running {
+    public static void main(String[] args) throws IOException {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             new QLSVView();
