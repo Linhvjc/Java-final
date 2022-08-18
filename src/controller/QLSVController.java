@@ -55,11 +55,12 @@ public class QLSVController implements ActionListener {
                 JOptionPane.showMessageDialog(view, "Cannot save this file");
             }
         } else if(cm.equals("Open")) {
-            try {
-                this.view.thucHienOpenFile();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(view, "Cannot open the file");
-            }
+//            try {
+//                this.view.thucHienOpenFile();
+//            } catch (Exception ex) {
+//                JOptionPane.showMessageDialog(view, "Cannot open the file");
+//            }
+            this.view.thucHienOpenFile();
         }
     }
 }

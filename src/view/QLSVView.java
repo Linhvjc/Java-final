@@ -8,11 +8,14 @@ import java.awt.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+
 import controller.QLSVController;
 import model.QLSVModel;
 import model.ThiSinh;
@@ -50,6 +53,11 @@ public class QLSVView extends JFrame {
         this.setLocationRelativeTo(null);
         ActionListener action = new QLSVController(this);
 
+        // Set Icon => JFrame
+        URL urlIconNotepad = QLSVView.class.getResource("../assets/main_icon.png");
+        Image img = Toolkit.getDefaultToolkit().createImage(urlIconNotepad);
+        this.setIconImage(img);
+
         // Menu bar
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -59,11 +67,15 @@ public class QLSVView extends JFrame {
         menuBar.add(menuFile);
 
         JMenuItem menuOpen = new JMenuItem("Open");
+        menuOpen.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
+                .createImage(QLSVView.class.getResource("../assets/open_icon.png"))));
         menuOpen.addActionListener(action);
         menuOpen.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         menuFile.add(menuOpen);
 
         JMenuItem menuSave = new JMenuItem("Save");
+        menuSave.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
+                .createImage(QLSVView.class.getResource("../assets/save_icon.png"))));
         menuSave.addActionListener(action);
         menuSave.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         menuFile.add(menuSave);
@@ -72,6 +84,8 @@ public class QLSVView extends JFrame {
         menuFile.add(separator);
 
         JMenuItem menuExit = new JMenuItem("Exit");
+        menuExit.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
+                .createImage(QLSVView.class.getResource("../assets/quit_icon.png"))));
         menuExit.addActionListener(action);
         menuExit.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         menuFile.add(menuExit);
@@ -81,6 +95,8 @@ public class QLSVView extends JFrame {
         menuBar.add(menuAbout);
 
         JMenuItem menuAboutMe = new JMenuItem("About me");
+        menuAboutMe.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
+                .createImage(QLSVView.class.getResource("../assets/info_icon.png"))));
         menuAboutMe.addActionListener(action);
         menuAboutMe.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         menuAbout.add(menuAboutMe);
@@ -100,7 +116,7 @@ public class QLSVView extends JFrame {
         panel_searchLocation.setLayout(new GridLayout(1, 2, 0, 0));
 
         JLabel jLabel_location = new JLabel("Home Town", SwingConstants.CENTER);
-        jLabel_location.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        jLabel_location.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_searchLocation.add(jLabel_location);
 
         comboBox_location_search = new JComboBox();
@@ -117,6 +133,7 @@ public class QLSVView extends JFrame {
         panel_searchID.setLayout(new GridLayout(1, 2, 0, 0));
 
         JLabel label_studentID = new JLabel("Student ID", SwingConstants.CENTER);
+        label_studentID.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_searchID.add(label_studentID);
 
         textField_studentID_search = new JTextField();
@@ -128,10 +145,12 @@ public class QLSVView extends JFrame {
         panel_searchBtn.setLayout(new GridLayout(1, 2, 20, 0));
 
         JButton btnSearch = new JButton("Search");
+        btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
         btnSearch.addActionListener(action);
         panel_searchBtn.add(btnSearch);
 
         JButton btnReload = new JButton("Reload");
+        btnReload.setFont(new Font("Tahoma", Font.PLAIN, 14));
         btnReload.addActionListener(action);
         panel_searchBtn.add(btnReload);
 
@@ -162,6 +181,14 @@ public class QLSVView extends JFrame {
                 }
         ));
 
+        // Thay đổi kích cỡ phần heading của từng cột
+        JTableHeader tableHeader = table.getTableHeader();
+        tableHeader.setFont(new Font("Verdana", Font.PLAIN, 14));
+        tableHeader.setBackground(Color.black);
+        table.setRowHeight(20);
+
+
+        // Làm cho người dùng không thể chỉnh sửa trực tiếp trên bảng
         table.setDefaultEditor(Object.class, null);
         scrollPane.setViewportView(table);
 
@@ -186,6 +213,7 @@ public class QLSVView extends JFrame {
         panel_contentFormBodyLeft.add(label_studentID_form);
 
         textField_ID = new JTextField();
+        textField_ID.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyLeft.add(textField_ID);
         textField_ID.setColumns(10);
 
@@ -194,6 +222,7 @@ public class QLSVView extends JFrame {
         panel_contentFormBodyLeft.add(label_studentName);
 
         textField_studentName = new JTextField();
+        textField_studentName.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyLeft.add(textField_studentName);
         textField_studentName.setColumns(10);
 
@@ -209,11 +238,12 @@ public class QLSVView extends JFrame {
         }
         panel_contentFormBodyLeft.add(comboBox_location);
 
-        JLabel label_dob = new JLabel("Date of birth (dd/mm/yyyy):", SwingConstants.CENTER);
+        JLabel label_dob = new JLabel("Date of birth (MM/dd/yyyy):", SwingConstants.CENTER);
         label_dob.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyLeft.add(label_dob);
 
         textField_dob = new JTextField();
+        textField_dob.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyLeft.add(textField_dob);
         textField_dob.setColumns(10);
 
@@ -247,6 +277,7 @@ public class QLSVView extends JFrame {
         panel_contentFormBodyRight.add(label_grade1);
 
         textField_grade1 = new JTextField();
+        textField_grade1.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyRight.add(textField_grade1);
         textField_grade1.setColumns(10);
 
@@ -255,6 +286,7 @@ public class QLSVView extends JFrame {
         panel_contentFormBodyRight.add(label_grade2);
 
         textField_grade2 = new JTextField();
+        textField_grade2.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyRight.add(textField_grade2);
         textField_grade2.setColumns(10);
 
@@ -263,6 +295,7 @@ public class QLSVView extends JFrame {
         panel_contentFormBodyRight.add(label_grade3);
 
         textField_grade3 = new JTextField();
+        textField_grade3.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyRight.add(textField_grade3);
         textField_grade3.setColumns(10);
 
@@ -383,7 +416,11 @@ public class QLSVView extends JFrame {
         String tenThiSinh = model_table.getValueAt(i_row,1) + "";
         Tinh tinh = Tinh.getTinhByTen(model_table.getValueAt(i_row,2) + "");
         String s_ngaySinh = model_table.getValueAt(i_row,3) +"";
-        Date ngaySinh = new Date(s_ngaySinh);
+        String[] arr = s_ngaySinh.split("/");
+        int date= Integer.parseInt(arr[0]);
+        int month= Integer.parseInt(arr[1]);
+        int year= Integer.parseInt(arr[2]);
+        Date ngaySinh = new Date(year,month,date);
         String textGioiTinh = model_table.getValueAt(i_row,4) +"";
         boolean gioiTinh = textGioiTinh.equals("Male");
         float diemMon1 = Float.parseFloat(model_table.getValueAt(i_row,5) +"");
@@ -404,8 +441,10 @@ public class QLSVView extends JFrame {
         this.textField_ID.setText(ts.getMaThiSinh()+"");
         this.textField_studentName.setText(ts.getTenThiSinh()+"");
         this.comboBox_location.setSelectedItem(ts.getQueQuan().getTenTinh());
-        String s_ngaySinh = ts.getNgaySinh().getDate() +"/"+(ts.getNgaySinh().getMonth()+1)
-                +"/"+ (ts.getNgaySinh().getYear()+1900);
+        String s_ngaySinh = (ts.getNgaySinh().getMonth()) +"/"+(ts.getNgaySinh().getDate())
+                +"/"+ (ts.getNgaySinh().getYear());
+//        String s_ngaySinh = ts.getNgaySinh().getDate() +"/"+(ts.getNgaySinh().getMonth()+1)
+//                +"/"+ (ts.getNgaySinh().getYear()+1900);
         this.textField_dob.setText(s_ngaySinh +"");
         if(ts.isGioiTinh()) {
             radioButton_male.setSelected(true);
@@ -441,6 +480,12 @@ public class QLSVView extends JFrame {
         String tenThiSinh = this.textField_studentName.getText();
         int queQuan = this.comboBox_location.getSelectedIndex() -1;
         Tinh tinh = Tinh.getTinhById(queQuan);
+        String[] time_data = this.textField_dob.getText().split("/");
+        Date newDate = new Date(this.textField_dob.getText());
+        int date = newDate.getDate();
+        int month = newDate.getMonth();
+        int year = newDate.getYear();
+//        Date ngaySinh = new Date(year,month,date);
         Date ngaySinh = new Date(this.textField_dob.getText());
         boolean gioiTinh = true;
 
@@ -603,7 +648,7 @@ public class QLSVView extends JFrame {
     /**
      * Mở file
      */
-    public void openFile(File file) throws Exception {
+    public void openFile(File file){
         ArrayList<ThiSinh> ds = new ArrayList<ThiSinh>();
         try {
             this.model.setTenFile(file.getAbsolutePath());
@@ -618,7 +663,7 @@ public class QLSVView extends JFrame {
             }
             ois.close();
         } catch (Exception e) {
-            throw e;
+
         }
         this.model.setDsThiSinh(ds);
     }
@@ -626,7 +671,7 @@ public class QLSVView extends JFrame {
     /**
      * Thực hiện mở file
      */
-    public void thucHienOpenFile() throws Exception {
+    public void thucHienOpenFile(){
         // Mở cửa sổ để các tập tin file
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showOpenDialog(this);
