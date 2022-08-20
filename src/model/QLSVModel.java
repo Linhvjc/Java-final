@@ -83,12 +83,12 @@ public class QLSVModel {
         return false;
     }
 
-    public boolean kiemtraIdTonTai(ThiSinh ts) {
-        for (ThiSinh thiSinh : dsThiSinh) {
-            if(thiSinh.getMaThiSinh() == ts.getMaThiSinh()) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public boolean kiemtraIdTonTai(ThiSinh ts) {
+//        for (ThiSinh thiSinh : dsThiSinh) {
+//            if(thiSinh.getMaThiSinh() == ts.getMaThiSinh()) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 }
