@@ -6,7 +6,7 @@ import javax.management.RuntimeErrorException;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
 import java.text.DateFormat;
@@ -66,14 +66,16 @@ public class QLSVView extends JFrame {
         menuFile.addActionListener(action);
         menuBar.add(menuFile);
 
-        JMenuItem menuOpen = new JMenuItem("Open");
+        JMenuItem menuOpen = new JMenuItem("Open", KeyEvent.VK_O);
+        menuOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         menuOpen.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
                 .createImage(QLSVView.class.getResource("../assets/open_icon.png"))));
         menuOpen.addActionListener(action);
         menuOpen.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         menuFile.add(menuOpen);
 
-        JMenuItem menuSave = new JMenuItem("Save");
+        JMenuItem menuSave = new JMenuItem("Save", KeyEvent.VK_S);
+        menuSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         menuSave.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
                 .createImage(QLSVView.class.getResource("../assets/save_icon.png"))));
         menuSave.addActionListener(action);
@@ -83,7 +85,8 @@ public class QLSVView extends JFrame {
         JSeparator separator = new JSeparator();
         menuFile.add(separator);
 
-        JMenuItem menuExit = new JMenuItem("Exit");
+        JMenuItem menuExit = new JMenuItem("Exit", KeyEvent.VK_X);
+        menuExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_DOWN_MASK));
         menuExit.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
                 .createImage(QLSVView.class.getResource("../assets/quit_icon.png"))));
         menuExit.addActionListener(action);
@@ -145,12 +148,12 @@ public class QLSVView extends JFrame {
         panel_searchBtn.setLayout(new GridLayout(1, 2, 20, 0));
 
         JButton btnSearch = new JButton("Search");
-        btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
         btnSearch.addActionListener(action);
         panel_searchBtn.add(btnSearch);
 
         JButton btnReload = new JButton("Reload");
-        btnReload.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        btnReload.setFont(new Font("Tahoma", Font.PLAIN, 16));
         btnReload.addActionListener(action);
         panel_searchBtn.add(btnReload);
 
@@ -305,27 +308,27 @@ public class QLSVView extends JFrame {
         panel_footer.setLayout(new GridLayout(1, 5, 20, 10));
 
         JButton btnAdd = new JButton("Add");
-        btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 18));
         btnAdd.addActionListener(action);
         panel_footer.add(btnAdd);
 
         JButton btnDelete = new JButton("Delete");
-        btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 18));
         btnDelete.addActionListener(action);
         panel_footer.add(btnDelete);
 
         JButton btnUpdate = new JButton("Update");
-        btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 18));
         btnUpdate.addActionListener(action);
         panel_footer.add(btnUpdate);
 
         JButton btnSave = new JButton("Save student");
-        btnSave.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        btnSave.setFont(new Font("Tahoma", Font.PLAIN, 18));
         btnSave.addActionListener(action);
         panel_footer.add(btnSave);
 
         JButton btnCancel = new JButton("Cancel");
-        btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 18));
         btnCancel.addActionListener(action);
         panel_footer.add(btnCancel);
 
@@ -376,7 +379,7 @@ public class QLSVView extends JFrame {
     }
 
     /**
-     * Phương thúc thêm hoặc cập nhật sinh viên vào bảng
+     * Phương thúc thêm hoặc cập nhật sinh viên vào bảng và model
      */
     public void themHoacCapNhatThiSinh(ThiSinh ts) {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
@@ -439,6 +442,7 @@ public class QLSVView extends JFrame {
 
         // Hiển thị thông tin thí sinh đã chọn lên form
         this.textField_ID.setText(ts.getMaThiSinh()+"");
+        this.textField_ID.setEditable(false);
         this.textField_studentName.setText(ts.getTenThiSinh()+"");
         this.comboBox_location.setSelectedItem(ts.getQueQuan().getTenTinh());
         String s_ngaySinh = (ts.getNgaySinh().getMonth()) +"/"+(ts.getNgaySinh().getDate())
@@ -462,7 +466,7 @@ public class QLSVView extends JFrame {
     public void thucHienXoa() {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         int i_row = table.getSelectedRow();
-        int luaChon = JOptionPane.showConfirmDialog(this, "Are you sure to delete the selected line?");
+        int luaChon = JOptionPane.showConfirmDialog(this, "Are you sure to delete the selected line?","Delete",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
         if (luaChon == JOptionPane.YES_OPTION) {
             ThiSinh ts = getThiSinhDangChon();
             this.model.delete(ts);
@@ -474,19 +478,21 @@ public class QLSVView extends JFrame {
      * Phương thúc xóa sinh viên đã chọn
      */
     public void thucHienThemThiSinh() throws Exception {
+        this.textField_ID.setEditable(true);
 
         // Lấy dữ liệu
         int maThiSinh = Integer.parseInt(this.textField_ID.getText());
         String tenThiSinh = this.textField_studentName.getText();
         int queQuan = this.comboBox_location.getSelectedIndex() -1;
         Tinh tinh = Tinh.getTinhById(queQuan);
-        String[] time_data = this.textField_dob.getText().split("/");
-        Date newDate = new Date(this.textField_dob.getText());
-        int date = newDate.getDate();
-        int month = newDate.getMonth();
-        int year = newDate.getYear();
+//        String[] time_data = this.textField_dob.getText().split("/");
+//        Date newDate = new Date(this.textField_dob.getText());
+//        int date = newDate.getDate();
+//        int month = newDate.getMonth();
+//        int year = newDate.getYear();
 //        Date ngaySinh = new Date(year,month,date);
         Date ngaySinh = new Date(this.textField_dob.getText());
+//        if (ngaySinh.getDate()) throw new Exception();
         boolean gioiTinh = true;
 
         if(this.radioButton_male.isSelected()) {
@@ -599,9 +605,10 @@ public class QLSVView extends JFrame {
     public void thoatKhoiChuongTrinh() {
         int luaChon = JOptionPane.showConfirmDialog(
                 this,
-                "Do you want to exit the program?",
-                "Exit",
-                JOptionPane.YES_NO_OPTION);
+                "Are you sure you want to exit the program?",
+                "Exit Program Message Box",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
         if(luaChon == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
@@ -629,18 +636,26 @@ public class QLSVView extends JFrame {
     /**
      * thực hiện lưu file
      */
-    public void thucHienSaveFile() throws IOException {
+    public void thucHienSaveFile(){
         // Kiểm tra xem đã mở file hay chưa
         if(this.model.getTenFile().length()>0) {
             // Lưu lại với chính tên file đó
-            saveFile(this.model.getTenFile());
+            try {
+                saveFile(this.model.getTenFile());
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Cannot save this file","Error",JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             // Mở cửa sổ để các tập tin file
             JFileChooser fc = new JFileChooser();
             int returnVal = fc.showSaveDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                saveFile(file.getAbsolutePath());
+                try {
+                    saveFile(file.getAbsolutePath());
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(this, "Cannot save this file", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
@@ -648,7 +663,7 @@ public class QLSVView extends JFrame {
     /**
      * Mở file
      */
-    public void openFile(File file){
+    public void openFile(File file) {
         ArrayList<ThiSinh> ds = new ArrayList<ThiSinh>();
         try {
             this.model.setTenFile(file.getAbsolutePath());
@@ -662,7 +677,7 @@ public class QLSVView extends JFrame {
                 ds.add(ts);
             }
             ois.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         this.model.setDsThiSinh(ds);

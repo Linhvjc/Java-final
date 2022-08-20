@@ -57,8 +57,14 @@ public class QLSVModel {
     }
 
     // Xoa thi sinh
-    public void delete(ThiSinh thiSinh) {
-        this.dsThiSinh.remove(thiSinh);
+    public void delete(ThiSinh ts) {
+        int index =-1;
+        for(int i =0; i<this.dsThiSinh.size(); i++) {
+            if(ts.getMaThiSinh() == this.dsThiSinh.get(i).getMaThiSinh()) {
+                index = i;
+            }
+        }
+        this.dsThiSinh.remove(index);
     }
 
     // Cap nhat thong tin thi sinh
@@ -69,6 +75,15 @@ public class QLSVModel {
 
     // Kiem tra Thí sinh đã tồn tại chưa
     public boolean kiemtraTonTai(ThiSinh ts) {
+        for (ThiSinh thiSinh : dsThiSinh) {
+            if(thiSinh.getMaThiSinh() == ts.getMaThiSinh()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean kiemtraIdTonTai(ThiSinh ts) {
         for (ThiSinh thiSinh : dsThiSinh) {
             if(thiSinh.getMaThiSinh() == ts.getMaThiSinh()) {
                 return true;

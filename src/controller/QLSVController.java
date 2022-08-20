@@ -32,7 +32,7 @@ public class QLSVController implements ActionListener {
             } catch (Exception e1) {
                 this.view.xoaForm();
                 JOptionPane.showMessageDialog(view, "Please enter full information !\n" +
-                        "Or your information is not correct!");
+                        "Or your information is not correct!","Invalid information",JOptionPane.ERROR_MESSAGE);
             }
         } else if(cm.equals("Update")) {
             this.view.hienThiThongTinThiSinhDaChon();
@@ -49,17 +49,8 @@ public class QLSVController implements ActionListener {
         } else if(cm.equals("Exit")) {
             this.view.thoatKhoiChuongTrinh();
         } else if(cm.equals("Save")) {
-            try {
-                this.view.thucHienSaveFile();
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(view, "Cannot save this file");
-            }
+            this.view.thucHienSaveFile();
         } else if(cm.equals("Open")) {
-//            try {
-//                this.view.thucHienOpenFile();
-//            } catch (Exception ex) {
-//                JOptionPane.showMessageDialog(view, "Cannot open the file");
-//            }
             this.view.thucHienOpenFile();
         }
     }
