@@ -1,17 +1,11 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.management.RuntimeErrorException;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -123,6 +117,8 @@ public class QLSVView extends JFrame {
         panel_searchLocation.add(jLabel_location);
 
         comboBox_location_search = new JComboBox();
+        comboBox_location_search.setBackground(Color.WHITE);
+        comboBox_location_search.setForeground(Color.BLACK);
         // Thêm từng tỉnh vào comboBox
         ArrayList<Tinh> listTinh = Tinh.getDSTinh();
         comboBox_location_search.addItem("");
@@ -148,12 +144,18 @@ public class QLSVView extends JFrame {
         panel_searchBtn.setLayout(new GridLayout(1, 2, 20, 0));
 
         JButton btnSearch = new JButton("Search");
-        btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnSearch.setFont(new Font("Tahoma", Font.BOLD, 16));
+        btnSearch.setBackground(new Color(132, 112 ,255));
+        btnSearch.setForeground(Color.WHITE);
+        btnSearch.setFocusPainted(false);
         btnSearch.addActionListener(action);
         panel_searchBtn.add(btnSearch);
 
         JButton btnReload = new JButton("Reload");
-        btnReload.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnReload.setFont(new Font("Tahoma", Font.BOLD, 16));
+        btnReload.setBackground(new Color(0, 139 ,0));
+        btnReload.setForeground(Color.WHITE);
+        btnReload.setFocusPainted(false);
         btnReload.addActionListener(action);
         panel_searchBtn.add(btnReload);
 
@@ -184,10 +186,11 @@ public class QLSVView extends JFrame {
                 }
         ));
 
-        // Thay đổi kích cỡ phần heading của từng cột
+        // Thay đổi kích cỡ, màu sắc phần heading của từng cột
         JTableHeader tableHeader = table.getTableHeader();
         tableHeader.setFont(new Font("Verdana", Font.PLAIN, 14));
         tableHeader.setBackground(Color.black);
+        tableHeader.setForeground(Color.white);
         table.setRowHeight(20);
 
 
@@ -215,6 +218,7 @@ public class QLSVView extends JFrame {
         label_studentID_form.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyLeft.add(label_studentID_form);
 
+
         textField_ID = new JTextField();
         textField_ID.setFont(new Font("Tahoma", Font.PLAIN, 14));
         panel_contentFormBodyLeft.add(textField_ID);
@@ -234,6 +238,8 @@ public class QLSVView extends JFrame {
         panel_contentFormBodyLeft.add(lable_location_form);
 
         comboBox_location = new JComboBox();
+        comboBox_location.setBackground(Color.WHITE);
+        comboBox_location.setForeground(Color.BLACK);
         // Thêm từng tỉnh vào comboBox
         comboBox_location.addItem("");
         for(Tinh tinh : listTinh) {
@@ -263,10 +269,12 @@ public class QLSVView extends JFrame {
         panel_Sex.setLayout(new GridLayout(1, 2, 0, 0));
 
         radioButton_male = new JRadioButton("Male");
+        radioButton_male.setFocusPainted(false);
         radioButton_male.setFont(new Font("Tahoma", Font.PLAIN, 13));
         panel_Sex.add(radioButton_male);
 
         radioButton_female = new JRadioButton("Female");
+        radioButton_female.setFocusPainted(false);
         radioButton_female.setFont(new Font("Tahoma", Font.PLAIN, 13));
         panel_Sex.add(radioButton_female);
 
@@ -308,27 +316,42 @@ public class QLSVView extends JFrame {
         panel_footer.setLayout(new GridLayout(1, 5, 20, 10));
 
         JButton btnAdd = new JButton("Add");
-        btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        btnAdd.setBackground(new Color(232, 122, 149));
+        btnAdd.setForeground(Color.WHITE);
+        btnAdd.setFocusPainted(false);
+        btnAdd.setFont(new Font("Tahoma", Font.BOLD, 18));
         btnAdd.addActionListener(action);
         panel_footer.add(btnAdd);
 
         JButton btnDelete = new JButton("Delete");
-        btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        btnDelete.setBackground(new Color(232, 122, 149));
+        btnDelete.setForeground(Color.WHITE);
+        btnDelete.setFocusPainted(false);
+        btnDelete.setFont(new Font("Tahoma", Font.BOLD, 18));
         btnDelete.addActionListener(action);
         panel_footer.add(btnDelete);
 
         JButton btnUpdate = new JButton("Update");
-        btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        btnUpdate.setBackground(new Color(232, 122, 149));
+        btnUpdate.setForeground(Color.WHITE);
+        btnUpdate.setFocusPainted(false);
+        btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 18));
         btnUpdate.addActionListener(action);
         panel_footer.add(btnUpdate);
 
         JButton btnSave = new JButton("Save student");
-        btnSave.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        btnSave.setBackground(new Color(232, 122, 149));
+        btnSave.setForeground(Color.WHITE);
+        btnSave.setFocusPainted(false);
+        btnSave.setFont(new Font("Tahoma", Font.BOLD, 18));
         btnSave.addActionListener(action);
         panel_footer.add(btnSave);
 
         JButton btnCancel = new JButton("Cancel");
-        btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        btnCancel.setBackground(new Color(232, 122, 149));
+        btnCancel.setForeground(Color.WHITE);
+        btnCancel.setFocusPainted(false);
+        btnCancel.setFont(new Font("Tahoma", Font.BOLD, 18));
         btnCancel.addActionListener(action);
         panel_footer.add(btnCancel);
 
@@ -351,6 +374,7 @@ public class QLSVView extends JFrame {
      */
     public void xoaForm() {
         textField_ID.setText("");
+        textField_ID.setEditable(true);
         textField_studentName.setText("");
         textField_studentID_search.setText("");
         textField_dob.setText("");
@@ -438,7 +462,12 @@ public class QLSVView extends JFrame {
      * Phương thúc hiển thị thông tin của sinh viên đã chọn
      */
     public void hienThiThongTinThiSinhDaChon() {
-        ThiSinh ts = getThiSinhDangChon();
+        ThiSinh ts;
+        try {
+            ts = getThiSinhDangChon();
+        } catch (Exception e) {
+            throw e;
+        }
 
         // Hiển thị thông tin thí sinh đã chọn lên form
         this.textField_ID.setText(ts.getMaThiSinh()+"");
@@ -463,15 +492,17 @@ public class QLSVView extends JFrame {
     /**
      * Phương thúc xóa sinh viên đã chọn
      */
-    public void thucHienXoa() {
+    public void thucHienXoa() throws Exception {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         int i_row = table.getSelectedRow();
+        if(i_row < 0) throw new Exception();
         int luaChon = JOptionPane.showConfirmDialog(this, "Are you sure to delete the selected line?","Delete",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
         if (luaChon == JOptionPane.YES_OPTION) {
             ThiSinh ts = getThiSinhDangChon();
             this.model.delete(ts);
             model_table.removeRow(i_row);
         }
+        this.xoaForm();
     }
 
     /**

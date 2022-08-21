@@ -35,9 +35,17 @@ public class QLSVController implements ActionListener {
                         "Or your information is not correct!","Invalid information",JOptionPane.ERROR_MESSAGE);
             }
         } else if(cm.equals("Update")) {
-            this.view.hienThiThongTinThiSinhDaChon();
+            try {
+                this.view.hienThiThongTinThiSinhDaChon();
+            } catch (Exception e1) {
+                JOptionPane.showMessageDialog(view, "Please select a student","Error",JOptionPane.ERROR_MESSAGE);
+            }
         } else if(cm.equals("Delete")) {
-            this.view.thucHienXoa();
+            try {
+                this.view.thucHienXoa();
+            } catch (Exception e2) {
+                JOptionPane.showMessageDialog(view, "Please select a student","Error",JOptionPane.ERROR_MESSAGE);
+            }
         } else if(cm.equals("Cancel")) {
             this.view.xoaForm();
         } else if(cm.equals("Search")) {
