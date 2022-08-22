@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -151,6 +152,8 @@ public class QLSVView extends JFrame {
         panel_searchBtn.setLayout(new GridLayout(1, 2, 20, 0));
 
         JButton btnSearch = new JButton("Search");
+        btnSearch.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
+                .createImage(QLSVView.class.getResource("../assets/search_icon.png"))));
         btnSearch.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnSearch.setBackground(new Color(132, 112 ,255));
         btnSearch.setForeground(Color.WHITE);
@@ -159,6 +162,8 @@ public class QLSVView extends JFrame {
         panel_searchBtn.add(btnSearch);
 
         JButton btnReload = new JButton("Reload");
+        btnReload.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
+                .createImage(QLSVView.class.getResource("../assets/reload_icon.png"))));
         btnReload.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnReload.setBackground(new Color(0, 139 ,0));
         btnReload.setForeground(Color.WHITE);
@@ -202,12 +207,14 @@ public class QLSVView extends JFrame {
                         "Student ID", "Full name", "Home town", "Date of birth", "Sex", "Grade 1", "Grade 2", "Grade 3"
                 }
         ));
+        table.setBackground(new Color(81, 220, 175));
+        table.setForeground(Color.WHITE);
 
         // Thay đổi kích cỡ, màu sắc phần heading của từng cột
         JTableHeader tableHeader = table.getTableHeader();
         tableHeader.setFont(new Font("Verdana", Font.PLAIN, 14));
-        tableHeader.setBackground(Color.black);
-        tableHeader.setForeground(Color.white);
+        tableHeader.setBackground(new Color(54, 48, 74));
+        tableHeader.setForeground(Color.WHITE);
         table.setRowHeight(20);
 
 
@@ -220,7 +227,7 @@ public class QLSVView extends JFrame {
         panel_content.add(panel_contentForm);
         panel_contentForm.setLayout(new BorderLayout(0, 0));
 
-        JLabel label_student_info = new JLabel("Student information", SwingConstants.CENTER);
+        JLabel label_student_info = new JLabel("Student form", SwingConstants.CENTER);
         label_student_info.setFont(new Font("Tahoma", Font.BOLD, 20));
         panel_contentForm.add(label_student_info, BorderLayout.NORTH);
         Border border2 = label_student_info.getBorder();
@@ -294,11 +301,13 @@ public class QLSVView extends JFrame {
         panel_Sex.setLayout(new GridLayout(1, 2, 0, 0));
 
         radioButton_male = new JRadioButton("Male");
+        radioButton_male.setBackground(Color.white);
         radioButton_male.setFocusPainted(false);
         radioButton_male.setFont(new Font("Tahoma", Font.PLAIN, 13));
         panel_Sex.add(radioButton_male);
 
         radioButton_female = new JRadioButton("Female");
+        radioButton_female.setBackground(Color.white);
         radioButton_female.setFocusPainted(false);
         radioButton_female.setFont(new Font("Tahoma", Font.PLAIN, 13));
         panel_Sex.add(radioButton_female);
@@ -342,7 +351,9 @@ public class QLSVView extends JFrame {
         panel_footer.setLayout(new GridLayout(1, 5, 20, 10));
 
         JButton btnAdd = new JButton("Add");
-        btnAdd.setBackground(new Color(232, 122, 149));
+        btnAdd.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
+                .createImage(QLSVView.class.getResource("../assets/add_icon.png"))));
+        btnAdd.setBackground(new Color(243, 165, 184));
         btnAdd.setForeground(Color.WHITE);
         btnAdd.setFocusPainted(false);
         btnAdd.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -350,7 +361,9 @@ public class QLSVView extends JFrame {
         panel_footer.add(btnAdd);
 
         JButton btnDelete = new JButton("Delete");
-        btnDelete.setBackground(new Color(232, 122, 149));
+        btnDelete.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
+                .createImage(QLSVView.class.getResource("../assets/delete_icon.png"))));
+        btnDelete.setBackground(new Color(243, 165, 184));
         btnDelete.setForeground(Color.WHITE);
         btnDelete.setFocusPainted(false);
         btnDelete.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -358,7 +371,9 @@ public class QLSVView extends JFrame {
         panel_footer.add(btnDelete);
 
         JButton btnUpdate = new JButton("Update");
-        btnUpdate.setBackground(new Color(232, 122, 149));
+        btnUpdate.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
+                .createImage(QLSVView.class.getResource("../assets/update_icon.png"))));
+        btnUpdate.setBackground(new Color(243, 165, 184));
         btnUpdate.setForeground(Color.WHITE);
         btnUpdate.setFocusPainted(false);
         btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -366,7 +381,9 @@ public class QLSVView extends JFrame {
         panel_footer.add(btnUpdate);
 
         JButton btnSave = new JButton("Save student");
-        btnSave.setBackground(new Color(232, 122, 149));
+        btnSave.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
+                .createImage(QLSVView.class.getResource("../assets/saveStudent_icon.png"))));
+        btnSave.setBackground(new Color(243, 165, 184));
         btnSave.setForeground(Color.WHITE);
         btnSave.setFocusPainted(false);
         btnSave.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -374,7 +391,9 @@ public class QLSVView extends JFrame {
         panel_footer.add(btnSave);
 
         JButton btnCancel = new JButton("Reset");
-        btnCancel.setBackground(new Color(232, 122, 149));
+        btnCancel.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
+                .createImage(QLSVView.class.getResource("../assets/reset_icon.png"))));
+        btnCancel.setBackground(new Color(243, 165, 184));
         btnCancel.setForeground(Color.WHITE);
         btnCancel.setFocusPainted(false);
         btnCancel.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -567,6 +586,19 @@ public class QLSVView extends JFrame {
         if (diemMon1 > 10 || diemMon1 <0) throw new Exception();
         if (diemMon2 > 10 || diemMon2 <0) throw new Exception();
         if (diemMon3 > 10 || diemMon3 <0) throw new Exception();
+
+        // validate Ngày tháng năm sinh
+        String dateString = this.textField_dob.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        sdf.setLenient(false);
+        try
+        {
+            Date javaDate = sdf.parse(dateString);
+        } catch (Exception e) {
+            throw e;
+        }
+
+
 
         // Thí sinh mới
         ThiSinh ts = new ThiSinh(maThiSinh,tenThiSinh,tinh,ngaySinh,gioiTinh,diemMon1,diemMon2,diemMon3);

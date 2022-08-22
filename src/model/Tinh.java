@@ -11,6 +11,9 @@ public class Tinh implements Serializable {
     /**
      * Constructor
      */
+    public Tinh() {
+    }
+
     public Tinh(int maTinh, String tenTinh) {
         this.maTinh = maTinh;
         this.tenTinh = tenTinh;
