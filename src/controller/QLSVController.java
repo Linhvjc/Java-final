@@ -63,7 +63,11 @@ public class QLSVController implements ActionListener {
                 JOptionPane.showMessageDialog(view, "Your data is empty","Cannot Save",JOptionPane.ERROR_MESSAGE);
             }
         } else if(cm.equals("Open")) {
-            this.view.thucHienOpenFile();
+            try {
+                this.view.thucHienOpenFile();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Your file is empty or cannot open","Error",JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

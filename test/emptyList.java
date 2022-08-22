@@ -8,6 +8,7 @@ public class emptyList {
 
     @Test
     public void testEmptyList() {
+        // Kiểm tra xem danh sách thí sinh lúc đầu có trống hay không
         QLSVModel list = new QLSVModel();
         assertTrue(list.getDsThiSinh().isEmpty());
         ThiSinh student = new ThiSinh();

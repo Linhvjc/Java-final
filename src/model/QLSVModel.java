@@ -68,8 +68,8 @@ public class QLSVModel {
     }
 
     // Cap nhat thong tin thi sinh
-    public void update(ThiSinh thiSinh) {
-        this.dsThiSinh.remove(thiSinh);
+    public void update(ThiSinh thiSinh, int indexThiSinhXoa) {
+        this.dsThiSinh.remove(indexThiSinhXoa);
         this.dsThiSinh.add(thiSinh);
     }
 

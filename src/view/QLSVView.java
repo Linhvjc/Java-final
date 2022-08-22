@@ -452,11 +452,18 @@ public class QLSVView extends JFrame {
      */
     public void themHoacCapNhatThiSinh(ThiSinh ts) {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
+
+        // Lấy index của thí sinh cần xóa
+        int index =-1;
+        for(int i =0; i<model.getDsThiSinh().size(); i++) {
+            if(ts.getMaThiSinh() == model.getDsThiSinh().get(i).getMaThiSinh()) {
+                index = i;
+            }
+        }
         if (!this.model.kiemtraTonTai(ts)) {
             this.model.insert(ts);
             this.themThiSinhVaoTable(ts);
         } else {
-            this.model.update(ts);
             int soLuongDong = model_table.getRowCount();
             for (int i = 0; i < soLuongDong; i++) {
                 String id = model_table.getValueAt(i, 0) + "";
@@ -472,6 +479,7 @@ public class QLSVView extends JFrame {
                     model_table.setValueAt(ts.getDiemMon3() + "", i, 7);
                 }
             }
+            this.model.update(ts, index);
         }
     }
 
@@ -508,6 +516,8 @@ public class QLSVView extends JFrame {
      */
     public void hienThiThongTinThiSinhDaChon() {
         ThiSinh ts;
+
+        // Kiểm tra xem người dùng đã chọn sinh viên chưa
         try {
             ts = getThiSinhDangChon();
         } catch (Exception e) {
@@ -597,8 +607,6 @@ public class QLSVView extends JFrame {
         } catch (Exception e) {
             throw e;
         }
-
-
 
         // Thí sinh mới
         ThiSinh ts = new ThiSinh(maThiSinh,tenThiSinh,tinh,ngaySinh,gioiTinh,diemMon1,diemMon2,diemMon3);
@@ -779,7 +787,7 @@ public class QLSVView extends JFrame {
     /**
      * Thực hiện mở file
      */
-    public void thucHienOpenFile(){
+    public void thucHienOpenFile() throws Exception {
         // Mở cửa sổ để các tập tin file
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showOpenDialog(this);
@@ -787,6 +795,9 @@ public class QLSVView extends JFrame {
             File file = fc.getSelectedFile();
             openFile(file);
             thucHienTaiLaiDuLieu();
+            DefaultTableModel model_table = (DefaultTableModel) table.getModel();
+            int num_row = model_table.getRowCount();
+            if(num_row <1) throw new Exception();
         }
     }
 

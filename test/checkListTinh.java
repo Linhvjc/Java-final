@@ -8,6 +8,6 @@ public class checkListTinh {
     @Test
     public void checkNumOfTinh() {
         Tinh list = new Tinh();
-        assertEquals(64, list.getDSTinh().size());
+        assertEquals(63, list.getDSTinh().size());
     }
 }
