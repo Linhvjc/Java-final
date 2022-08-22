@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.*;
 import java.io.*;
@@ -101,14 +103,17 @@ public class QLSVView extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         setContentPane(contentPane);
+        contentPane.setBackground(Color.WHITE);
         contentPane.setLayout(new BorderLayout(0, 10));
 
         // Header panel
         JPanel panel_header = new JPanel();
+        panel_header.setBackground(Color.WHITE);
         contentPane.add(panel_header, BorderLayout.NORTH);
         panel_header.setLayout(new GridLayout(1, 3, 5, 5));
 
         JPanel panel_searchLocation = new JPanel();
+        panel_searchLocation.setBackground(Color.WHITE);
         panel_header.add(panel_searchLocation);
         panel_searchLocation.setLayout(new GridLayout(1, 2, 0, 0));
 
@@ -128,6 +133,7 @@ public class QLSVView extends JFrame {
         panel_searchLocation.add(comboBox_location_search);
 
         JPanel panel_searchID = new JPanel();
+        panel_searchID.setBackground(Color.WHITE);
         panel_header.add(panel_searchID);
         panel_searchID.setLayout(new GridLayout(1, 2, 0, 0));
 
@@ -140,6 +146,7 @@ public class QLSVView extends JFrame {
         textField_studentID_search.setColumns(10);
 
         JPanel panel_searchBtn = new JPanel();
+        panel_searchBtn.setBackground(Color.WHITE);
         panel_header.add(panel_searchBtn);
         panel_searchBtn.setLayout(new GridLayout(1, 2, 20, 0));
 
@@ -161,16 +168,26 @@ public class QLSVView extends JFrame {
 
         // Content panel
         JPanel panel_content = new JPanel();
+        panel_content.setBackground(Color.WHITE);
         contentPane.add(panel_content, BorderLayout.CENTER);
         panel_content.setLayout(new GridLayout(2, 1, 5, 5));
+        Border border3 = panel_content.getBorder();
+        Border margin3 = new EmptyBorder(0,0,10,0);
+        panel_content.setBorder(new CompoundBorder(border3, margin3));
 
         JPanel panel_contentTable = new JPanel();
+        panel_contentTable.setBackground(Color.WHITE);
         panel_content.add(panel_contentTable);
         panel_contentTable.setLayout(new BorderLayout(0, 0));
 
-        JLabel label_body_header = new JLabel("List of students");
-        label_body_header.setFont(new Font("Tahoma", Font.BOLD, 18));
+
+
+        JLabel label_body_header = new JLabel("List of students", SwingConstants.CENTER);
+        label_body_header.setFont(new Font("Tahoma", Font.BOLD, 20));
         panel_contentTable.add(label_body_header, BorderLayout.NORTH);
+        Border border = label_body_header.getBorder();
+        Border margin = new EmptyBorder(0,0,10,0);
+        label_body_header.setBorder(new CompoundBorder(border, margin));
 
         JScrollPane scrollPane = new JScrollPane();
         panel_contentTable.add(scrollPane, BorderLayout.CENTER);
@@ -199,18 +216,24 @@ public class QLSVView extends JFrame {
         scrollPane.setViewportView(table);
 
         JPanel panel_contentForm = new JPanel();
+        panel_contentForm.setBackground(Color.WHITE);
         panel_content.add(panel_contentForm);
         panel_contentForm.setLayout(new BorderLayout(0, 0));
 
-        JLabel label_student_info = new JLabel("Student information");
-        label_student_info.setFont(new Font("Tahoma", Font.BOLD, 18));
+        JLabel label_student_info = new JLabel("Student information", SwingConstants.CENTER);
+        label_student_info.setFont(new Font("Tahoma", Font.BOLD, 20));
         panel_contentForm.add(label_student_info, BorderLayout.NORTH);
+        Border border2 = label_student_info.getBorder();
+        Border margin2 = new EmptyBorder(0,0,10,0);
+        label_student_info.setBorder(new CompoundBorder(border2, margin2));
 
         JPanel panel_contentFormBody = new JPanel();
+        panel_contentFormBody.setBackground(Color.WHITE);
         panel_contentForm.add(panel_contentFormBody, BorderLayout.CENTER);
         panel_contentFormBody.setLayout(new GridLayout(1, 2, 5, 5));
 
         JPanel panel_contentFormBodyLeft = new JPanel();
+        panel_contentFormBodyLeft.setBackground(Color.WHITE);
         panel_contentFormBody.add(panel_contentFormBodyLeft);
         panel_contentFormBodyLeft.setLayout(new GridLayout(4, 2, 10, 10));
 
@@ -257,6 +280,7 @@ public class QLSVView extends JFrame {
         textField_dob.setColumns(10);
 
         JPanel panel_contentFormBodyRight = new JPanel();
+        panel_contentFormBodyRight.setBackground(Color.WHITE);
         panel_contentFormBody.add(panel_contentFormBodyRight);
         panel_contentFormBodyRight.setLayout(new GridLayout(4, 2, 10, 10));
 
@@ -265,6 +289,7 @@ public class QLSVView extends JFrame {
         panel_contentFormBodyRight.add(label_sex);
 
         JPanel panel_Sex = new JPanel();
+        panel_Sex.setBackground(Color.WHITE);
         panel_contentFormBodyRight.add(panel_Sex);
         panel_Sex.setLayout(new GridLayout(1, 2, 0, 0));
 
@@ -312,6 +337,7 @@ public class QLSVView extends JFrame {
 
         // Footer panel
         JPanel panel_footer = new JPanel();
+        panel_footer.setBackground(Color.WHITE);
         contentPane.add(panel_footer, BorderLayout.SOUTH);
         panel_footer.setLayout(new GridLayout(1, 5, 20, 10));
 
@@ -347,7 +373,7 @@ public class QLSVView extends JFrame {
         btnSave.addActionListener(action);
         panel_footer.add(btnSave);
 
-        JButton btnCancel = new JButton("Cancel");
+        JButton btnCancel = new JButton("Reset");
         btnCancel.setBackground(new Color(232, 122, 149));
         btnCancel.setForeground(Color.WHITE);
         btnCancel.setFocusPainted(false);
@@ -652,7 +678,6 @@ public class QLSVView extends JFrame {
         try {
             this.model.setTenFile(path);
             FileOutputStream fos = new FileOutputStream(path);
-            // Lưu đối tượng xuống
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             // Lưu từng thí sinh vào file
             for (ThiSinh ts : this.model.getDsThiSinh()) {
@@ -667,7 +692,11 @@ public class QLSVView extends JFrame {
     /**
      * thực hiện lưu file
      */
-    public void thucHienSaveFile(){
+    public void thucHienSaveFile() throws Exception {
+        // Kiểm tra xem dữ liệu rỗng hay không
+        DefaultTableModel model_table = (DefaultTableModel) table.getModel();
+        int num_row = model_table.getRowCount();
+        if(num_row <1) throw new Exception();
         // Kiểm tra xem đã mở file hay chưa
         if(this.model.getTenFile().length()>0) {
             // Lưu lại với chính tên file đó
@@ -677,6 +706,7 @@ public class QLSVView extends JFrame {
                 JOptionPane.showMessageDialog(this, "Cannot save this file","Error",JOptionPane.ERROR_MESSAGE);
             }
         } else {
+
             // Mở cửa sổ để các tập tin file
             JFileChooser fc = new JFileChooser();
             int returnVal = fc.showSaveDialog(this);

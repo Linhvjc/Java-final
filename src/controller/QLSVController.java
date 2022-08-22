@@ -46,7 +46,7 @@ public class QLSVController implements ActionListener {
             } catch (Exception e2) {
                 JOptionPane.showMessageDialog(view, "Please select a student","Error",JOptionPane.ERROR_MESSAGE);
             }
-        } else if(cm.equals("Cancel")) {
+        } else if(cm.equals("Reset")) {
             this.view.xoaForm();
         } else if(cm.equals("Search")) {
             this.view.thucHienTim();
@@ -57,7 +57,11 @@ public class QLSVController implements ActionListener {
         } else if(cm.equals("Exit")) {
             this.view.thoatKhoiChuongTrinh();
         } else if(cm.equals("Save")) {
-            this.view.thucHienSaveFile();
+            try {
+                this.view.thucHienSaveFile();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Your data is empty","Cannot Save",JOptionPane.ERROR_MESSAGE);
+            }
         } else if(cm.equals("Open")) {
             this.view.thucHienOpenFile();
         }
