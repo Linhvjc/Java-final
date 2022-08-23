@@ -1,13 +1,13 @@
 import static org.junit.Assert.*;
 
-import model.Tinh;
+import model.Province;
 import org.testng.annotations.Test;
 
 public class checkListTinh {
 
     @Test
     public void checkNumOfTinh() {
-        Tinh list = new Tinh();
-        assertEquals(63, list.getDSTinh().size());
+        Province list = new Province();
+        assertEquals(63, list.getListProvince().size());
     }
 }

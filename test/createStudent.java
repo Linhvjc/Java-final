@@ -1,5 +1,5 @@
-import model.ThiSinh;
-import model.Tinh;
+import model.Student;
+import model.Province;
 
 import static org.junit.Assert.*;
 import org.testng.annotations.Test;
@@ -10,29 +10,29 @@ public class createStudent {
 
     @Test
     public void testIdStudent() {
-        ThiSinh student = new ThiSinh(1,"Linh", Tinh.getTinhById(2)
+        Student student = new Student(1,"Linh", Province.getProvinceById(2)
                 ,new Date("3/17/2002"),true,1,2,3);
-        assertEquals(1,student.getMaThiSinh());
+        assertEquals(1,student.getStudentID());
     }
 
     @Test
     public void testNameStudent() {
-        ThiSinh student = new ThiSinh(1,"Linh", Tinh.getTinhById(2)
+        Student student = new Student(1,"Linh", Province.getProvinceById(2)
                 ,new Date("3/17/2002"),true,1,2,3);
-        assertEquals("Linh",student.getTenThiSinh());
+        assertEquals("Linh",student.getStudentName());
     }
 
     @Test
     public void testNameTinh() {
-        ThiSinh student = new ThiSinh(1,"Linh", Tinh.getTinhById(2)
+        Student student = new Student(1,"Linh", Province.getProvinceById(2)
                 ,new Date("3/17/2002"),true,1,2,3);
-        assertEquals(Tinh.getTinhById(2),student.getQueQuan());
+        assertEquals(Province.getProvinceById(2),student.getHomeTown());
     }
 
     @Test
     public void testDob() {
-        ThiSinh student = new ThiSinh(1,"Linh", Tinh.getTinhById(2)
+        Student student = new Student(1,"Linh", Province.getProvinceById(2)
                 ,new Date("3/17/2002"),true,1,2,3);
-        assertEquals(new Date("3/17/2002"),student.getNgaySinh());
+        assertEquals(new Date("3/17/2002"),student.getDob());
     }
 }

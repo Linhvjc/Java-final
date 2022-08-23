@@ -13,19 +13,19 @@ import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import controller.QLSVController;
-import model.QLSVModel;
-import model.ThiSinh;
-import model.Tinh;
+import controller.StudentManagementController;
+import model.StudentManagementModel;
+import model.Student;
+import model.Province;
 
-public class QLSVView extends JFrame {
+public class StudentManagementView extends JFrame {
 
     public JRadioButton radioButton_male;
     public JRadioButton radioButton_female;
     public ButtonGroup btng_sex;
     public JComboBox comboBox_location_search;
     public JComboBox comboBox_location;
-    public QLSVModel model;
+    public StudentManagementModel model;
     private JPanel contentPane;
     public JTextField textField_studentID_search;
     public JTable table;
@@ -40,18 +40,18 @@ public class QLSVView extends JFrame {
     /**
      * Create the frame.
      */
-    public QLSVView() {
-        this.model = new QLSVModel();
+    public StudentManagementView() {
+        this.model = new StudentManagementModel();
 
         // Set các đặc tính cho toàn bộ chương trình
         this.setTitle("Student manager system");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900,600);
         this.setLocationRelativeTo(null);
-        ActionListener action = new QLSVController(this);
+        ActionListener action = new StudentManagementController(this);
 
         // Set Icon => JFrame
-        URL urlIconNotepad = QLSVView.class.getResource("../assets/main_icon.png");
+        URL urlIconNotepad = StudentManagementView.class.getResource("../assets/main_icon.png");
         Image img = Toolkit.getDefaultToolkit().createImage(urlIconNotepad);
         this.setIconImage(img);
 
@@ -66,7 +66,7 @@ public class QLSVView extends JFrame {
         JMenuItem menuOpen = new JMenuItem("Open", KeyEvent.VK_O);
         menuOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         menuOpen.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
-                .createImage(QLSVView.class.getResource("../assets/open_icon.png"))));
+                .createImage(StudentManagementView.class.getResource("../assets/open_icon.png"))));
         menuOpen.addActionListener(action);
         menuOpen.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         menuFile.add(menuOpen);
@@ -74,7 +74,7 @@ public class QLSVView extends JFrame {
         JMenuItem menuSave = new JMenuItem("Save", KeyEvent.VK_S);
         menuSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         menuSave.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
-                .createImage(QLSVView.class.getResource("../assets/save_icon.png"))));
+                .createImage(StudentManagementView.class.getResource("../assets/save_icon.png"))));
         menuSave.addActionListener(action);
         menuSave.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         menuFile.add(menuSave);
@@ -85,7 +85,7 @@ public class QLSVView extends JFrame {
         JMenuItem menuExit = new JMenuItem("Exit", KeyEvent.VK_X);
         menuExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_DOWN_MASK));
         menuExit.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
-                .createImage(QLSVView.class.getResource("../assets/quit_icon.png"))));
+                .createImage(StudentManagementView.class.getResource("../assets/quit_icon.png"))));
         menuExit.addActionListener(action);
         menuExit.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         menuFile.add(menuExit);
@@ -96,7 +96,7 @@ public class QLSVView extends JFrame {
 
         JMenuItem menuAboutMe = new JMenuItem("About me");
         menuAboutMe.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
-                .createImage(QLSVView.class.getResource("../assets/info_icon.png"))));
+                .createImage(StudentManagementView.class.getResource("../assets/info_icon.png"))));
         menuAboutMe.addActionListener(action);
         menuAboutMe.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         menuAbout.add(menuAboutMe);
@@ -126,10 +126,10 @@ public class QLSVView extends JFrame {
         comboBox_location_search.setBackground(Color.WHITE);
         comboBox_location_search.setForeground(Color.BLACK);
         // Thêm từng tỉnh vào comboBox
-        ArrayList<Tinh> listTinh = Tinh.getDSTinh();
+        ArrayList<Province> listProvince = Province.getListProvince();
         comboBox_location_search.addItem("");
-        for(Tinh tinh : listTinh) {
-            comboBox_location_search.addItem(tinh.getTenTinh());
+        for(Province province : listProvince) {
+            comboBox_location_search.addItem(province.getProvinceName());
         }
         panel_searchLocation.add(comboBox_location_search);
 
@@ -153,7 +153,7 @@ public class QLSVView extends JFrame {
 
         JButton btnSearch = new JButton("Search");
         btnSearch.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
-                .createImage(QLSVView.class.getResource("../assets/search_icon.png"))));
+                .createImage(StudentManagementView.class.getResource("../assets/search_icon.png"))));
         btnSearch.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnSearch.setBackground(new Color(132, 112 ,255));
         btnSearch.setForeground(Color.WHITE);
@@ -163,7 +163,7 @@ public class QLSVView extends JFrame {
 
         JButton btnReload = new JButton("Reload");
         btnReload.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
-                .createImage(QLSVView.class.getResource("../assets/reload_icon.png"))));
+                .createImage(StudentManagementView.class.getResource("../assets/reload_icon.png"))));
         btnReload.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnReload.setBackground(new Color(0, 139 ,0));
         btnReload.setForeground(Color.WHITE);
@@ -263,17 +263,17 @@ public class QLSVView extends JFrame {
         panel_contentFormBodyLeft.add(textField_studentName);
         textField_studentName.setColumns(10);
 
-        JLabel lable_location_form = new JLabel("Home town:", SwingConstants.CENTER);
-        lable_location_form.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        panel_contentFormBodyLeft.add(lable_location_form);
+        JLabel label_location_form = new JLabel("Home town:", SwingConstants.CENTER);
+        label_location_form.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        panel_contentFormBodyLeft.add(label_location_form);
 
         comboBox_location = new JComboBox();
         comboBox_location.setBackground(Color.WHITE);
         comboBox_location.setForeground(Color.BLACK);
         // Thêm từng tỉnh vào comboBox
         comboBox_location.addItem("");
-        for(Tinh tinh : listTinh) {
-            comboBox_location.addItem(tinh.getTenTinh());
+        for(Province province : listProvince) {
+            comboBox_location.addItem(province.getProvinceName());
         }
         panel_contentFormBodyLeft.add(comboBox_location);
 
@@ -352,7 +352,7 @@ public class QLSVView extends JFrame {
 
         JButton btnAdd = new JButton("Add");
         btnAdd.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
-                .createImage(QLSVView.class.getResource("../assets/add_icon.png"))));
+                .createImage(StudentManagementView.class.getResource("../assets/add_icon.png"))));
         btnAdd.setBackground(new Color(243, 165, 184));
         btnAdd.setForeground(Color.WHITE);
         btnAdd.setFocusPainted(false);
@@ -362,7 +362,7 @@ public class QLSVView extends JFrame {
 
         JButton btnDelete = new JButton("Delete");
         btnDelete.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
-                .createImage(QLSVView.class.getResource("../assets/delete_icon.png"))));
+                .createImage(StudentManagementView.class.getResource("../assets/delete_icon.png"))));
         btnDelete.setBackground(new Color(243, 165, 184));
         btnDelete.setForeground(Color.WHITE);
         btnDelete.setFocusPainted(false);
@@ -372,7 +372,7 @@ public class QLSVView extends JFrame {
 
         JButton btnUpdate = new JButton("Update");
         btnUpdate.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
-                .createImage(QLSVView.class.getResource("../assets/update_icon.png"))));
+                .createImage(StudentManagementView.class.getResource("../assets/update_icon.png"))));
         btnUpdate.setBackground(new Color(243, 165, 184));
         btnUpdate.setForeground(Color.WHITE);
         btnUpdate.setFocusPainted(false);
@@ -382,7 +382,7 @@ public class QLSVView extends JFrame {
 
         JButton btnSave = new JButton("Save student");
         btnSave.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
-                .createImage(QLSVView.class.getResource("../assets/saveStudent_icon.png"))));
+                .createImage(StudentManagementView.class.getResource("../assets/saveStudent_icon.png"))));
         btnSave.setBackground(new Color(243, 165, 184));
         btnSave.setForeground(Color.WHITE);
         btnSave.setFocusPainted(false);
@@ -392,7 +392,7 @@ public class QLSVView extends JFrame {
 
         JButton btnCancel = new JButton("Reset");
         btnCancel.setIcon(new ImageIcon(Toolkit.getDefaultToolkit()
-                .createImage(QLSVView.class.getResource("../assets/reset_icon.png"))));
+                .createImage(StudentManagementView.class.getResource("../assets/reset_icon.png"))));
         btnCancel.setBackground(new Color(243, 165, 184));
         btnCancel.setForeground(Color.WHITE);
         btnCancel.setFocusPainted(false);
@@ -417,7 +417,7 @@ public class QLSVView extends JFrame {
     /**
      * Phương thúc xoa toan bo thong tin tren form
      */
-    public void xoaForm() {
+    public void deleteForm() {
         textField_ID.setText("");
         textField_ID.setEditable(true);
         textField_studentName.setText("");
@@ -433,169 +433,169 @@ public class QLSVView extends JFrame {
     /**
      * Phương thúc thêm sinh viên vào bảng
      */
-    public void themThiSinhVaoTable (ThiSinh ts) {
+    public void addStudentToTable(Student student) {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         model_table.addRow(new Object[] {
-                ts.getMaThiSinh() + ""
-                , ts.getTenThiSinh()
-                , ts.getQueQuan().getTenTinh()
-                , ts.getNgaySinh().getDate() + "/" + (ts.getNgaySinh().getMonth() + 1) +
-                "/" + (ts.getNgaySinh().getYear() + 1900)
-                , (ts.isGioiTinh() ? "Male" : "Female")
-                , ts.getDiemMon1() + ""
-                , ts.getDiemMon2() + "",
-                ts.getDiemMon3() + "", });
+                student.getStudentID() + ""
+                , student.getStudentName()
+                , student.getHomeTown().getProvinceName()
+                , student.getDob().getDate() + "/" + (student.getDob().getMonth() + 1) +
+                "/" + (student.getDob().getYear() + 1900)
+                , (student.isSex() ? "Male" : "Female")
+                , student.getGrade1() + ""
+                , student.getGrade2() + "",
+                student.getGrade3() + "", });
     }
 
     /**
      * Phương thúc thêm hoặc cập nhật sinh viên vào bảng và model
      */
-    public void themHoacCapNhatThiSinh(ThiSinh ts) {
+    public void addOrUpdateStudent(Student student) {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
 
         // Lấy index của thí sinh cần xóa
         int index =-1;
-        for(int i =0; i<model.getDsThiSinh().size(); i++) {
-            if(ts.getMaThiSinh() == model.getDsThiSinh().get(i).getMaThiSinh()) {
+        for(int i = 0; i<model.getListStudent().size(); i++) {
+            if(student.getStudentID() == model.getListStudent().get(i).getStudentID()) {
                 index = i;
             }
         }
-        if (!this.model.kiemtraTonTai(ts)) {
-            this.model.insert(ts);
-            this.themThiSinhVaoTable(ts);
+        if (!this.model.checkIfExist(student)) {
+            this.model.insert(student);
+            this.addStudentToTable(student);
         } else {
-            int soLuongDong = model_table.getRowCount();
-            for (int i = 0; i < soLuongDong; i++) {
+            int rowCount = model_table.getRowCount();
+            for (int i = 0; i < rowCount; i++) {
                 String id = model_table.getValueAt(i, 0) + "";
-                if (id.equals(ts.getMaThiSinh() + "")) {
-                    model_table.setValueAt(ts.getMaThiSinh() + "", i, 0);
-                    model_table.setValueAt(ts.getTenThiSinh() + "", i, 1);
-                    model_table.setValueAt(ts.getQueQuan().getTenTinh() + "", i, 2);
-                    model_table.setValueAt(ts.getNgaySinh().getDate() + "/" + (ts.getNgaySinh().getMonth() + 1) + "/"
-                            + (ts.getNgaySinh().getYear() + 1900) + "", i, 3);
-                    model_table.setValueAt((ts.isGioiTinh() ? "Male" : "Female"), i, 4);
-                    model_table.setValueAt(ts.getDiemMon1() + "", i, 5);
-                    model_table.setValueAt(ts.getDiemMon2() + "", i, 6);
-                    model_table.setValueAt(ts.getDiemMon3() + "", i, 7);
+                if (id.equals(student.getStudentID() + "")) {
+                    model_table.setValueAt(student.getStudentID() + "", i, 0);
+                    model_table.setValueAt(student.getStudentName() + "", i, 1);
+                    model_table.setValueAt(student.getHomeTown().getProvinceName() + "", i, 2);
+                    model_table.setValueAt(student.getDob().getDate() + "/" + (student.getDob().getMonth() + 1) + "/"
+                            + (student.getDob().getYear() + 1900) + "", i, 3);
+                    model_table.setValueAt((student.isSex() ? "Male" : "Female"), i, 4);
+                    model_table.setValueAt(student.getGrade1() + "", i, 5);
+                    model_table.setValueAt(student.getGrade2() + "", i, 6);
+                    model_table.setValueAt(student.getGrade3() + "", i, 7);
                 }
             }
-            this.model.update(ts, index);
+            this.model.update(student, index);
         }
     }
 
     /**
      * Phương thúc lấy thông tin của sinh viên đã chọn
      */
-    public ThiSinh getThiSinhDangChon() {
+    public Student getStudentSelected() {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         int i_row = table.getSelectedRow();  // index của dòng
         model_table.getValueAt(i_row,0);
 
         // Lấy dữ liệu
-        int maThiSinh = Integer.parseInt(model_table.getValueAt(i_row,0) +"");
-        String tenThiSinh = model_table.getValueAt(i_row,1) + "";
-        Tinh tinh = Tinh.getTinhByTen(model_table.getValueAt(i_row,2) + "");
-        String s_ngaySinh = model_table.getValueAt(i_row,3) +"";
-        String[] arr = s_ngaySinh.split("/");
+        int studentId = Integer.parseInt(model_table.getValueAt(i_row,0) +"");
+        String studentName = model_table.getValueAt(i_row,1) + "";
+        Province province = Province.getTinhByTen(model_table.getValueAt(i_row,2) + "");
+        String s_dob = model_table.getValueAt(i_row,3) +"";
+        String[] arr = s_dob.split("/");
         int date= Integer.parseInt(arr[0]);
         int month= Integer.parseInt(arr[1]);
         int year= Integer.parseInt(arr[2]);
-        Date ngaySinh = new Date(year,month,date);
-        String textGioiTinh = model_table.getValueAt(i_row,4) +"";
-        boolean gioiTinh = textGioiTinh.equals("Male");
-        float diemMon1 = Float.parseFloat(model_table.getValueAt(i_row,5) +"");
-        float diemMon2 = Float.parseFloat(model_table.getValueAt(i_row,6) +"");
-        float diemMon3 = Float.parseFloat(model_table.getValueAt(i_row,7) +"");
+        Date dob = new Date(year,month,date);
+        String textSex = model_table.getValueAt(i_row,4) +"";
+        boolean sex = textSex.equals("Male");
+        float grade1 = Float.parseFloat(model_table.getValueAt(i_row,5) +"");
+        float grade2 = Float.parseFloat(model_table.getValueAt(i_row,6) +"");
+        float grade3 = Float.parseFloat(model_table.getValueAt(i_row,7) +"");
 
-        ThiSinh ts = new ThiSinh(maThiSinh,tenThiSinh,tinh,ngaySinh,gioiTinh,diemMon1,diemMon2,diemMon3);
+        Student ts = new Student(studentId,studentName,province,dob,sex,grade1,grade2,grade3);
         return ts;
     }
 
     /**
      * Phương thúc hiển thị thông tin của sinh viên đã chọn
      */
-    public void hienThiThongTinThiSinhDaChon() {
-        ThiSinh ts;
+    public void displayStudentSelected() {
+        Student student;
 
         // Kiểm tra xem người dùng đã chọn sinh viên chưa
         try {
-            ts = getThiSinhDangChon();
+            student = getStudentSelected();
         } catch (Exception e) {
             throw e;
         }
 
         // Hiển thị thông tin thí sinh đã chọn lên form
-        this.textField_ID.setText(ts.getMaThiSinh()+"");
+        this.textField_ID.setText(student.getStudentID()+"");
         this.textField_ID.setEditable(false);
-        this.textField_studentName.setText(ts.getTenThiSinh()+"");
-        this.comboBox_location.setSelectedItem(ts.getQueQuan().getTenTinh());
-        String s_ngaySinh = (ts.getNgaySinh().getMonth()) +"/"+(ts.getNgaySinh().getDate())
-                +"/"+ (ts.getNgaySinh().getYear());
-//        String s_ngaySinh = ts.getNgaySinh().getDate() +"/"+(ts.getNgaySinh().getMonth()+1)
-//                +"/"+ (ts.getNgaySinh().getYear()+1900);
-        this.textField_dob.setText(s_ngaySinh +"");
-        if(ts.isGioiTinh()) {
+        this.textField_studentName.setText(student.getStudentName()+"");
+        this.comboBox_location.setSelectedItem(student.getHomeTown().getProvinceName());
+        String s_dob = (student.getDob().getMonth()) +"/"+(student.getDob().getDate())
+                +"/"+ (student.getDob().getYear());
+//        String s_dob = student.getNgaySinh().getDate() +"/"+(student.getNgaySinh().getMonth()+1)
+//                +"/"+ (student.getNgaySinh().getYear()+1900);
+        this.textField_dob.setText(s_dob +"");
+        if(student.isSex()) {
             radioButton_male.setSelected(true);
         } else {
             radioButton_female.setSelected(true);
         }
-        this.textField_grade1.setText(ts.getDiemMon1()+"");
-        this.textField_grade2.setText(ts.getDiemMon2()+"");
-        this.textField_grade3.setText(ts.getDiemMon3()+"");
+        this.textField_grade1.setText(student.getGrade1()+"");
+        this.textField_grade2.setText(student.getGrade2()+"");
+        this.textField_grade3.setText(student.getGrade3()+"");
     }
 
     /**
      * Phương thúc xóa sinh viên đã chọn
      */
-    public void thucHienXoa() throws Exception {
+    public void handleDeleteStudent() throws Exception {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         int i_row = table.getSelectedRow();
         if(i_row < 0) throw new Exception();
-        int luaChon = JOptionPane.showConfirmDialog(this, "Are you sure to delete the selected line?","Delete",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
-        if (luaChon == JOptionPane.YES_OPTION) {
-            ThiSinh ts = getThiSinhDangChon();
+        int choice = JOptionPane.showConfirmDialog(this, "Are you sure to delete the selected line?","Delete",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+        if (choice == JOptionPane.YES_OPTION) {
+            Student ts = getStudentSelected();
             this.model.delete(ts);
             model_table.removeRow(i_row);
         }
-        this.xoaForm();
+        this.deleteForm();
     }
 
     /**
      * Phương thúc xóa sinh viên đã chọn
      */
-    public void thucHienThemThiSinh() throws Exception {
+    public void handleAddStudent() throws Exception {
         this.textField_ID.setEditable(true);
 
         // Lấy dữ liệu
-        int maThiSinh = Integer.parseInt(this.textField_ID.getText());
-        String tenThiSinh = this.textField_studentName.getText();
-        int queQuan = this.comboBox_location.getSelectedIndex() -1;
-        Tinh tinh = Tinh.getTinhById(queQuan);
+        int studentId = Integer.parseInt(this.textField_ID.getText());
+        String studentName = this.textField_studentName.getText();
+        int homeTown = this.comboBox_location.getSelectedIndex() -1;
+        Province province = Province.getProvinceById(homeTown);
 //        String[] time_data = this.textField_dob.getText().split("/");
 //        Date newDate = new Date(this.textField_dob.getText());
 //        int date = newDate.getDate();
 //        int month = newDate.getMonth();
 //        int year = newDate.getYear();
-//        Date ngaySinh = new Date(year,month,date);
-        Date ngaySinh = new Date(this.textField_dob.getText());
-//        if (ngaySinh.getDate()) throw new Exception();
-        boolean gioiTinh = true;
+//        Date dob = new Date(year,month,date);
+        Date dob = new Date(this.textField_dob.getText());
+//        if (dob.getDate()) throw new Exception();
+        boolean sex = true;
 
         if(this.radioButton_male.isSelected()) {
-            gioiTinh = true;
+            sex = true;
         } else if(this.radioButton_female.isSelected()) {
-            gioiTinh = false;
+            sex = false;
         } else {
             throw new Exception();
         }
 
         // validate khi nhập điểm >10 hoặc <0
-        float diemMon1 = Float.parseFloat(this.textField_grade1.getText());
-        float diemMon2 = Float.parseFloat(this.textField_grade2.getText());
-        float diemMon3 = Float.parseFloat(this.textField_grade3.getText());
-        if (diemMon1 > 10 || diemMon1 <0) throw new Exception();
-        if (diemMon2 > 10 || diemMon2 <0) throw new Exception();
-        if (diemMon3 > 10 || diemMon3 <0) throw new Exception();
+        float grade1 = Float.parseFloat(this.textField_grade1.getText());
+        float grade2 = Float.parseFloat(this.textField_grade2.getText());
+        float grade3 = Float.parseFloat(this.textField_grade3.getText());
+        if (grade1 > 10 || grade1 <0) throw new Exception();
+        if (grade2 > 10 || grade2 <0) throw new Exception();
+        if (grade3 > 10 || grade3 <0) throw new Exception();
 
         // validate Ngày tháng năm sinh
         String dateString = this.textField_dob.getText();
@@ -609,49 +609,49 @@ public class QLSVView extends JFrame {
         }
 
         // Thí sinh mới
-        ThiSinh ts = new ThiSinh(maThiSinh,tenThiSinh,tinh,ngaySinh,gioiTinh,diemMon1,diemMon2,diemMon3);
-        this.themHoacCapNhatThiSinh(ts);
-        this.xoaForm();
+        Student ts = new Student(studentId,studentName,province,dob,sex,grade1,grade2,grade3);
+        this.addOrUpdateStudent(ts);
+        this.deleteForm();
     }
 
     /**
      * Phương thức tìm kiếm sinh viên
      */
-    public void thucHienTim() {
-        // Gọi hàm hủy tìm kiếm trước
-        this.thucHienTaiLaiDuLieu();
+    public void handleSearchStudent() {
+        // Gọi phương thức load lại dữ liệu trước
+        this.handleReLoadData();
 
         // Thực hiện tìm kiếm
-        int queQuan = this.comboBox_location_search.getSelectedIndex() -1;
-        String maThiSinhTimKiem = this.textField_studentID_search.getText();
+        int homeTownSearch = this.comboBox_location_search.getSelectedIndex() -1;
+        String StudentIdSearch = this.textField_studentID_search.getText();
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
-        int soLuongDong = model_table.getRowCount();
+        int rowCount = model_table.getRowCount();
 
-        Set<Integer> idCuaThiSinhCanXoa = new TreeSet<Integer>();
-        if(queQuan>=0) { // nếu có chọn quê quán
-            Tinh tinhDaChon = Tinh.getTinhById(queQuan);
-            for(int i=0; i<soLuongDong; i++) {
-                String tenTinh = model_table.getValueAt(i,2)+"";
+        Set<Integer> StudentIdDelete = new TreeSet<Integer>();
+        if(homeTownSearch>=0) { // nếu có chọn quê quán
+            Province provinceSelected = Province.getProvinceById(homeTownSearch);
+            for(int i=0; i<rowCount; i++) {
+                String provinceName = model_table.getValueAt(i,2)+"";
                 String id = model_table.getValueAt(i,0) +"";
-                if(!tenTinh.equals(tinhDaChon.getTenTinh())) {
-                    idCuaThiSinhCanXoa.add(Integer.valueOf(id));
+                if(!provinceName.equals(provinceSelected.getProvinceName())) {
+                    StudentIdDelete.add(Integer.valueOf(id));
                 }
             }
         }
-        if(maThiSinhTimKiem.length() >0) {  // Nếu đã nhập mã số sv
-            for(int i=0; i<soLuongDong; i++) {
+        if(StudentIdSearch.length() >0) {  // Nếu đã nhập mã số sv
+            for(int i=0; i<rowCount; i++) {
                 String id = model_table.getValueAt(i,0)+"";
-                if(!id.equals(maThiSinhTimKiem)) {
-                    idCuaThiSinhCanXoa.add(Integer.valueOf(id));
+                if(!id.equals(StudentIdSearch)) {
+                    StudentIdDelete.add(Integer.valueOf(id));
                 }
             }
         }
 
-        for (Integer idCanXoa : idCuaThiSinhCanXoa) {
-            soLuongDong = model_table.getRowCount();
-            for(int i=0; i<soLuongDong; i++) {
-                String idTrongTable = model_table.getValueAt(i,0) +"";
-                if(idTrongTable.equals(idCanXoa.toString())) {
+        for (Integer idNeedToDelete : StudentIdDelete) {
+            rowCount = model_table.getRowCount();
+            for(int i=0; i<rowCount; i++) {
+                String idInTable = model_table.getValueAt(i,0) +"";
+                if(idInTable.equals(idNeedToDelete.toString())) {
                     try {
                         model_table.removeRow(i);
                     } catch (Exception e) {
@@ -669,12 +669,12 @@ public class QLSVView extends JFrame {
     /**
      * Phương thức tải lại dữ liệu trong bảng
      */
-    public void thucHienTaiLaiDuLieu() {
+    public void handleReLoadData() {
         // Xoa tat ca cac dong
         while (true) {
             DefaultTableModel model_table = (DefaultTableModel) table.getModel();
-            int soLuongDong = model_table.getRowCount();
-            if(soLuongDong==0)
+            int rowCount = model_table.getRowCount();
+            if(rowCount==0)
                 break;
             else
                 // Bắt lỗi khi xóa hàng
@@ -684,22 +684,22 @@ public class QLSVView extends JFrame {
                     throw e;
                 }
         }
-        for (ThiSinh ts : this.model.getDsThiSinh()) {
-            this.themThiSinhVaoTable(ts);
+        for (Student ts : this.model.getListStudent()) {
+            this.addStudentToTable(ts);
         }
     }
 
     /**
      * hiển thị cửa sổ aboutme
      */
-    public void hienThiAbout() {
+    public void displayAbout() {
         JOptionPane.showMessageDialog(this, "Copyright by Phan Nhat Linh");
     }
 
     /**
      * Thoát khỏi chương trình
      */
-    public void thoatKhoiChuongTrinh() {
+    public void exitProgram() {
         int luaChon = JOptionPane.showConfirmDialog(
                 this,
                 "Are you sure you want to exit the program?",
@@ -716,12 +716,12 @@ public class QLSVView extends JFrame {
      */
     public void saveFile(String path) throws IOException {
         try {
-            this.model.setTenFile(path);
+            this.model.setFileName(path);
             FileOutputStream fos = new FileOutputStream(path);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             // Lưu từng thí sinh vào file
-            for (ThiSinh ts : this.model.getDsThiSinh()) {
-                oos.writeObject(ts);
+            for (Student student : this.model.getListStudent()) {
+                oos.writeObject(student);
             }
             oos.close();
         } catch (Exception e) {
@@ -732,16 +732,16 @@ public class QLSVView extends JFrame {
     /**
      * thực hiện lưu file
      */
-    public void thucHienSaveFile() throws Exception {
+    public void handleSaveFile() throws Exception {
         // Kiểm tra xem dữ liệu rỗng hay không
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         int num_row = model_table.getRowCount();
         if(num_row <1) throw new Exception();
         // Kiểm tra xem đã mở file hay chưa
-        if(this.model.getTenFile().length()>0) {
+        if(this.model.getFileName().length()>0) {
             // Lưu lại với chính tên file đó
             try {
-                saveFile(this.model.getTenFile());
+                saveFile(this.model.getFileName());
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "Cannot save this file","Error",JOptionPane.ERROR_MESSAGE);
             }
@@ -765,36 +765,36 @@ public class QLSVView extends JFrame {
      * Mở file
      */
     public void openFile(File file) {
-        ArrayList<ThiSinh> ds = new ArrayList<ThiSinh>();
+        ArrayList<Student> list = new ArrayList<Student>();
         try {
-            this.model.setTenFile(file.getAbsolutePath());
+            this.model.setFileName(file.getAbsolutePath());
             FileInputStream fis = new FileInputStream(file);
             // Lưu đối tượng xuống
             ObjectInputStream ois = new ObjectInputStream(fis);
 
             // Tạo mảng mới để cập nhật tùng thí sinh vào Ds
-            ThiSinh ts = null;
-            while((ts = (ThiSinh) ois.readObject())!=null) {
-                ds.add(ts);
+            Student student = null;
+            while((student = (Student) ois.readObject())!=null) {
+                list.add(student);
             }
             ois.close();
         } catch (Exception ignored) {
 
         }
-        this.model.setDsThiSinh(ds);
+        this.model.setListStudent(list);
     }
 
     /**
      * Thực hiện mở file
      */
-    public void thucHienOpenFile() throws Exception {
+    public void handleOpenFile() throws Exception {
         // Mở cửa sổ để các tập tin file
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             openFile(file);
-            thucHienTaiLaiDuLieu();
+            handleReLoadData();
             DefaultTableModel model_table = (DefaultTableModel) table.getModel();
             int num_row = model_table.getRowCount();
             if(num_row <1) throw new Exception();

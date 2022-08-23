@@ -1,19 +1,15 @@
 package controller;
 
-import model.ThiSinh;
-import model.Tinh;
-import view.QLSVView;
+import view.StudentManagementView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.Date;
 
-public class QLSVController implements ActionListener {
-    public QLSVView view;
+public class StudentManagementController implements ActionListener {
+    public StudentManagementView view;
 
-    public QLSVController(QLSVView view) {
+    public StudentManagementController(StudentManagementView view) {
         this.view = view;
     }
 
@@ -23,48 +19,48 @@ public class QLSVController implements ActionListener {
 
         // Xử lý khi nhấn vào từng nút
         if(cm.equals("Add")) {
-            this.view.xoaForm();
-            this.view.model.setLuaChon("Them");
+            this.view.deleteForm();
+            this.view.model.setChoice("Them");
         } else if(cm.equals("Save student")) {
             // Bắt lỗi khi người dùng nhập sai kiểu dữ liệu
             try {
-                this.view.thucHienThemThiSinh();
+                this.view.handleAddStudent();
             } catch (Exception e1) {
-                this.view.xoaForm();
+                this.view.deleteForm();
                 JOptionPane.showMessageDialog(view, "Please enter full information !\n" +
                         "Or your information is not correct!","Invalid information",JOptionPane.ERROR_MESSAGE);
             }
         } else if(cm.equals("Update")) {
             try {
-                this.view.hienThiThongTinThiSinhDaChon();
+                this.view.displayStudentSelected();
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(view, "Please select a student","Error",JOptionPane.ERROR_MESSAGE);
             }
         } else if(cm.equals("Delete")) {
             try {
-                this.view.thucHienXoa();
+                this.view.handleDeleteStudent();
             } catch (Exception e2) {
                 JOptionPane.showMessageDialog(view, "Please select a student","Error",JOptionPane.ERROR_MESSAGE);
             }
         } else if(cm.equals("Reset")) {
-            this.view.xoaForm();
+            this.view.deleteForm();
         } else if(cm.equals("Search")) {
-            this.view.thucHienTim();
+            this.view.handleSearchStudent();
         } else if(cm.equals("Reload")) {
-            this.view.thucHienTaiLaiDuLieu();
+            this.view.handleReLoadData();
         } else if(cm.equals("About me")) {
-            this.view.hienThiAbout();
+            this.view.displayAbout();
         } else if(cm.equals("Exit")) {
-            this.view.thoatKhoiChuongTrinh();
+            this.view.exitProgram();
         } else if(cm.equals("Save")) {
             try {
-                this.view.thucHienSaveFile();
+                this.view.handleSaveFile();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(view, "Your data is empty","Cannot Save",JOptionPane.ERROR_MESSAGE);
             }
         } else if(cm.equals("Open")) {
             try {
-                this.view.thucHienOpenFile();
+                this.view.handleOpenFile();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(view, "Your file is empty or cannot open","Error",JOptionPane.ERROR_MESSAGE);
             }

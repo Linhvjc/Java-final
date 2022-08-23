@@ -4,38 +4,38 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Tinh implements Serializable {
-    private int maTinh;
-    private String tenTinh;
+public class Province implements Serializable {
+    private int provinceID;
+    private String provinceName;
 
     /**
      * Constructor
      */
-    public Tinh() {
+    public Province() {
     }
 
-    public Tinh(int maTinh, String tenTinh) {
-        this.maTinh = maTinh;
-        this.tenTinh = tenTinh;
+    public Province(int provinceID, String provinceName) {
+        this.provinceID = provinceID;
+        this.provinceName = provinceName;
     }
 
     /**
      * Getter and Setter
      */
-    public int getMaTinh() {
-        return maTinh;
+    public int getProvinceID() {
+        return provinceID;
     }
 
-    public void setMaTinh(int maTinh) {
-        this.maTinh = maTinh;
+    public void setProvinceID(int provinceID) {
+        this.provinceID = provinceID;
     }
 
-    public String getTenTinh() {
-        return tenTinh;
+    public String getProvinceName() {
+        return provinceName;
     }
 
-    public void setTenTinh(String tenTinh) {
-        this.tenTinh = tenTinh;
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
     }
 
     /**
@@ -43,12 +43,12 @@ public class Tinh implements Serializable {
      */
     @Override
     public String toString() {
-        return "Tinh [maTinh=" + maTinh + ", tenTinh=" + tenTinh + "]";
+        return "Tinh [maTinh=" + provinceID + ", tenTinh=" + provinceName + "]";
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(maTinh, tenTinh);
+        return Objects.hash(provinceID, provinceName);
     }
 
     @Override
@@ -59,12 +59,12 @@ public class Tinh implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Tinh other = (Tinh) obj;
-        return maTinh == other.maTinh && Objects.equals(tenTinh, other.tenTinh);
+        Province other = (Province) obj;
+        return provinceID == other.provinceID && Objects.equals(provinceName, other.provinceName);
     }
 
     // Mang tinh thanh
-    public static ArrayList<Tinh> getDSTinh() {
+    public static ArrayList<Province> getListProvince() {
         String[] arr_tinh = { "An Giang",
                 "Bà Rịa – Vũng Tàu",
                 "Bạc Liêu",
@@ -129,25 +129,25 @@ public class Tinh implements Serializable {
                 "Vĩnh Phúc",
                 "Yên Bái",};
 
-        ArrayList<Tinh> listTinh = new ArrayList<Tinh>();
+        ArrayList<Province> listProvince = new ArrayList<Province>();
         int i =0;
 //        Tạo ra lần lượt đối tượng tỉnh
-        for(String tentinh : arr_tinh) {
-            Tinh t = new Tinh(i, tentinh);
-            listTinh.add(t);
+        for(String name : arr_tinh) {
+            Province t = new Province(i, name);
+            listProvince.add(t);
         }
-        return listTinh;
+        return listProvince;
     }
 
-    public static Tinh getTinhById(int queQuan) {
-        return Tinh.getDSTinh().get(queQuan);
+    public static Province getProvinceById(int homeTown) {
+        return Province.getListProvince().get(homeTown);
     }
 
-    public static Tinh getTinhByTen(String tenTinh) {
-        ArrayList<Tinh> listTinh = Tinh.getDSTinh();
-        for (Tinh tinh : listTinh) {
-            if(tinh.tenTinh.equals(tenTinh)) {
-                return tinh;
+    public static Province getTinhByTen(String provinceName) {
+        ArrayList<Province> listProvince = Province.getListProvince();
+        for (Province province : listProvince) {
+            if(province.provinceName.equals(provinceName)) {
+                return province;
             }
         }
         return null;
