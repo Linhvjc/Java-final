@@ -143,7 +143,7 @@ public class Province implements Serializable {
         return Province.getListProvince().get(homeTown);
     }
 
-    public static Province getTinhByTen(String provinceName) {
+    public static Province getProvinceByName(String provinceName) {
         ArrayList<Province> listProvince = Province.getListProvince();
         for (Province province : listProvince) {
             if(province.provinceName.equals(provinceName)) {

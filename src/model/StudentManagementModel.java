@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class StudentManagementModel {
     private ArrayList<Student> listStudent;
-    private String choice;
     private String fileName;
 
     /**
@@ -12,7 +11,6 @@ public class StudentManagementModel {
      */
     public StudentManagementModel() {
         this.listStudent = new ArrayList<Student>();
-        this.choice = "";
         this.fileName ="";
     }
 
@@ -29,14 +27,6 @@ public class StudentManagementModel {
 
     public void setListStudent(ArrayList<Student> listStudent) {
         this.listStudent = listStudent;
-    }
-
-    public String getChoice() {
-        return choice;
-    }
-
-    public void setChoice(String choice) {
-        this.choice = choice;
     }
 
     public String getFileName() {

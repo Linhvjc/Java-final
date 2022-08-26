@@ -20,13 +20,12 @@ public class StudentManagementController implements ActionListener {
         // Xử lý khi nhấn vào từng nút
         if(cm.equals("Add")) {
             this.view.deleteForm();
-            this.view.model.setChoice("Them");
         } else if(cm.equals("Save student")) {
             // Bắt lỗi khi người dùng nhập sai kiểu dữ liệu
             try {
                 this.view.handleAddStudent();
             } catch (Exception e1) {
-                this.view.deleteForm();
+//                this.view.deleteForm();
                 JOptionPane.showMessageDialog(view, "Please enter full information !\n" +
                         "Or your information is not correct!","Invalid information",JOptionPane.ERROR_MESSAGE);
             }
@@ -34,13 +33,15 @@ public class StudentManagementController implements ActionListener {
             try {
                 this.view.displayStudentSelected();
             } catch (Exception e1) {
-                JOptionPane.showMessageDialog(view, "Please select a student","Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(view, "Please select a student",
+                        "Error",JOptionPane.ERROR_MESSAGE);
             }
         } else if(cm.equals("Delete")) {
             try {
                 this.view.handleDeleteStudent();
             } catch (Exception e2) {
-                JOptionPane.showMessageDialog(view, "Please select a student","Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(view, "Please select a student",
+                        "Error",JOptionPane.ERROR_MESSAGE);
             }
         } else if(cm.equals("Reset")) {
             this.view.deleteForm();
@@ -56,13 +57,15 @@ public class StudentManagementController implements ActionListener {
             try {
                 this.view.handleSaveFile();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(view, "Your data is empty","Cannot Save",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(view, "Your data is empty",
+                        "Cannot Save",JOptionPane.ERROR_MESSAGE);
             }
         } else if(cm.equals("Open")) {
             try {
                 this.view.handleOpenFile();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(view, "Your file is empty or cannot open","Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(view, "Your file is empty or cannot open",
+                        "Error",JOptionPane.ERROR_MESSAGE);
             }
         }
     }

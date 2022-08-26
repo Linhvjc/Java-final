@@ -494,7 +494,7 @@ public class StudentManagementView extends JFrame {
         // Lấy dữ liệu
         int studentId = Integer.parseInt(model_table.getValueAt(i_row,0) +"");
         String studentName = model_table.getValueAt(i_row,1) + "";
-        Province province = Province.getTinhByTen(model_table.getValueAt(i_row,2) + "");
+        Province province = Province.getProvinceByName(model_table.getValueAt(i_row,2) + "");
         String s_dob = model_table.getValueAt(i_row,3) +"";
         String[] arr = s_dob.split("/");
         int date= Integer.parseInt(arr[0]);
@@ -551,7 +551,8 @@ public class StudentManagementView extends JFrame {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         int i_row = table.getSelectedRow();
         if(i_row < 0) throw new Exception();
-        int choice = JOptionPane.showConfirmDialog(this, "Are you sure to delete the selected line?","Delete",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+        int choice = JOptionPane.showConfirmDialog(this,
+                "Are you sure to delete the selected line?","Delete",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
         if (choice == JOptionPane.YES_OPTION) {
             Student ts = getStudentSelected();
             this.model.delete(ts);
@@ -571,16 +572,12 @@ public class StudentManagementView extends JFrame {
         String studentName = this.textField_studentName.getText();
         int homeTown = this.comboBox_location.getSelectedIndex() -1;
         Province province = Province.getProvinceById(homeTown);
-//        String[] time_data = this.textField_dob.getText().split("/");
-//        Date newDate = new Date(this.textField_dob.getText());
-//        int date = newDate.getDate();
-//        int month = newDate.getMonth();
-//        int year = newDate.getYear();
-//        Date dob = new Date(year,month,date);
+
         Date dob = new Date(this.textField_dob.getText());
 //        if (dob.getDate()) throw new Exception();
         boolean sex = true;
 
+        // Validate giới tính
         if(this.radioButton_male.isSelected()) {
             sex = true;
         } else if(this.radioButton_female.isSelected()) {
@@ -719,7 +716,8 @@ public class StudentManagementView extends JFrame {
             this.model.setFileName(path);
             FileOutputStream fos = new FileOutputStream(path);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            // Lưu từng thí sinh vào file
+
+            // Lưu từng đối tượng thí sinh vào file
             for (Student student : this.model.getListStudent()) {
                 oos.writeObject(student);
             }
@@ -734,6 +732,7 @@ public class StudentManagementView extends JFrame {
      */
     public void handleSaveFile() throws Exception {
         // Kiểm tra xem dữ liệu rỗng hay không
+        handleReLoadData();
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         int num_row = model_table.getRowCount();
         if(num_row <1) throw new Exception();
@@ -743,7 +742,8 @@ public class StudentManagementView extends JFrame {
             try {
                 saveFile(this.model.getFileName());
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "Cannot save this file","Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Cannot save this file",
+                        "Error",JOptionPane.ERROR_MESSAGE);
             }
         } else {
 
@@ -755,7 +755,8 @@ public class StudentManagementView extends JFrame {
                 try {
                     saveFile(file.getAbsolutePath());
                 } catch (IOException e) {
-                    JOptionPane.showMessageDialog(this, "Cannot save this file", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Cannot save this file",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -769,7 +770,6 @@ public class StudentManagementView extends JFrame {
         try {
             this.model.setFileName(file.getAbsolutePath());
             FileInputStream fis = new FileInputStream(file);
-            // Lưu đối tượng xuống
             ObjectInputStream ois = new ObjectInputStream(fis);
 
             // Tạo mảng mới để cập nhật tùng thí sinh vào Ds
@@ -788,8 +788,9 @@ public class StudentManagementView extends JFrame {
      * Thực hiện mở file
      */
     public void handleOpenFile() throws Exception {
-        // Mở cửa sổ để các tập tin file
+
         JFileChooser fc = new JFileChooser();
+        // Mở cửa sổ để các tập tin file (document)
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
